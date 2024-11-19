@@ -1,15 +1,16 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './assets/style/custom-style.scss'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import FormRegister from './components/FormRegister';
+import FormLogin from './components/FormLogin';
+import FormSignUp from './components/FormSignUp.jsx';
 
 function App() {
   return (
 <BrowserRouter>
 <Routes>
-<Route path='/*' element={<FormRegister />} />
+<Route path='/login' element={<FormLogin />} />
+<Route path='/sign-up' element ={ <FormSignUp/>} />
 </Routes>
 </BrowserRouter>
   );

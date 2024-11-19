@@ -1,11 +1,12 @@
 // Prima importa Bootstrap
 @import "bootstrap/scss/bootstrap";
+@import "bootstrap/scss/variables";
 
 // Definizione colori base
 $new-primary: #1ED760;
-$new-success: #1ACB98;
+$new-success: #013734;
 $new-warning: #FFAA46;
-$new-dark: #313030;
+$new-dark: #000000;
 
 // Theme colors
 $new-theme-colors: (
@@ -87,4 +88,16 @@ body {
 
 @media (min-width: 769px) {
   // Desktop styles
+}
+
+// card form
+.card {
+  background: linear-gradient(
+      to bottom,
+      $new-success 0%,
+      darken($new-success, 20%) 100%
+  );
+  // Opzionalmente, puoi aggiungere
+  border: none; // per rimuovere il bordo default di Bootstrap
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // per aggiungere profondità
 }
