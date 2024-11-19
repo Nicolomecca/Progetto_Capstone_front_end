@@ -90,14 +90,339 @@ body {
   // Desktop styles
 }
 
-// card form
+// Card form con effetti avanzati
 .card {
+  width: 500px; // Larghezza fissa più ampia
   background: linear-gradient(
-      to bottom,
-      $new-success 0%,
-      darken($new-success, 20%) 100%
+    135deg,
+    rgba(68, 152, 231, 0.3) 0%,    // chit con trasparenza
+    rgba(156, 39, 176, 0.3) 50%,    // viola con trasparenza
+    rgba(63, 81, 181, 0.3) 100%     // blu con trasparenza
   );
-  // Opzionalmente, puoi aggiungere
-  border: none; // per rimuovere il bordo default di Bootstrap
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // per aggiungere profondità
+  border: none;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  // Effetto hover sulla card
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+    
+    &::before {
+      transform: translateX(0);
+      opacity: 0.1;
+    }
+  }
+  
+  // Effetto luminoso che scorre
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transform: translateX(-100%);
+    transition: transform 0.8s;
+  }
+  
+  // Stili per il contenuto della card
+  .card-title {
+    color: white;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, #4498E7, #9c27b0);
+      transition: width 0.3s ease;
+    }
+    
+    &:hover::after {
+      width: 100px;
+    }
+  }
+  
+  // Stili per gli input
+  .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+    
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+    
+    &:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #4498E7;
+      box-shadow: 0 0 15px rgba(68, 152, 231, 0.3);
+      transform: translateY(-2px);
+      
+      &::placeholder {
+        opacity: 0;
+        transform: translateX(10px);
+      }
+    }
+  }
+  
+  // Stili per i bottoni
+  .btn {
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      
+      &::before {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  }
+}
+
+// Animazione di entrata per il form
+@keyframes formAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-group {
+  animation: formAppear 0.5s ease forwards;
+  animation-delay: calc(var(--i) * 0.1s);
+}
+
+// Logo container
+.logo-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 150px auto 50px auto; // Aumentato il margin-top a 150px
+
+}
+
+// Cerchio esterno con rotazione
+.logo-circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 4px solid $new-primary;
+  border-radius: 50%;
+  animation: rotate 10s linear infinite, pulse 2s ease-in-out infinite;
+}
+
+// Simbolo del codice con rotazione
+.logo-code {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;  // Dimensione fissa per il contenitore
+  height: 60px; // Dimensione fissa per il contenitore
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &::before {
+    content: '</>';
+    font-size: 3rem;
+    color: white;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px $new-primary;
+    animation: rotate 10s linear infinite, glow 1.5s ease-in-out infinite alternate;
+  }
+}
+
+// Particelle orbitanti più veloci
+.particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: rotate 8s linear infinite;
+  
+  .particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: $new-success;
+    border-radius: 50%;
+    
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) {
+        top: percentage(random(100) / 100);
+        left: percentage(random(100) / 100);
+        animation: float #{1 + random(2)}s ease-in-out infinite;
+        animation-delay: #{random(1)}s;
+      }
+    }
+  }
+}
+
+// Titolo statico
+.logo-title {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: -120px; // Aumentato per dare più spazio
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; // Spazio tra le parole
+
+  // Prima parola (Impossible)
+  .title-main {
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -1px;
+  }
+
+  // Seconda parola (Maybe)
+  .title-accent {
+    font-size: 4rem;
+    font-weight: 500;
+    font-style: italic;
+    background: linear-gradient(90deg, #9c27b0, #3f51b5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -1px;
+  }
+}
+
+// Animazioni
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px $new-primary, 0 0 10px $new-primary, 0 0 15px $new-success;
+  }
+  to {
+    text-shadow: 0 0 10px $new-primary, 0 0 20px $new-primary, 0 0 30px $new-success;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+.auth-options {
+  position: relative;
+  z-index: 1;
+  margin-top: 8rem; // Aumentato il margine superiore
+  
+  .auth-link {
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      background: linear-gradient(90deg, #9c27b0, #3f51b5);
+      transform: scale(1.05);
+    }
+  }
+
+  span {
+    font-size: 1.2rem;
+    opacity: 0.8;
+  }
+  .display-1 {
+    font-size: 6rem;
+  }
+  
+  @media (max-width: 768px) {
+    .display-1 {
+      font-size: 4rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .display-1 {
+      font-size: 3rem;
+    }
+  }
+ 
 }

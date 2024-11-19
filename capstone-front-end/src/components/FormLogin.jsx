@@ -1,79 +1,86 @@
+// FormRegister.jsx (Login)
 import { Button, Container, Card, Form } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {SetTokenAction} from '../actions'
-import '../assets/style/custom-style.scss'
+import { SetTokenAction } from '../actions';
+import '../assets/style/custom-style.scss';
+import { useNavigate } from 'react-router-dom';
 
-const FormRegister = () =>{
+
+const FormLogin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const userData = { username, password };
         try {
             const response = await fetch("http://localhost:3001/auth/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(userData),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
             });
             if (response.ok) {
-                alert("Login avvenuto con successo!");
                 const token = await response.json();
-                dispatch(SetTokenAction(token.token))
-              } else {
+                dispatch(SetTokenAction(token.token));
+                navigate("/home");
+
+
+            } else {
                 const error = await response.json();
                 alert(error.message);
-              }
-            } catch (error) {
-              console.log("Errore:", error);
-              alert("Si è verificato un errore. Riprova più tardi.");
             }
-          };
-          return (
-            <Container className="d-flex flex-column align-items-center justify-content-center pb-3 vh-100 ">
-              <Card className="p-4 shadow cardSign mb-3 card">
-                <Card.Title className="mb-4 fs-2 text-white">Login</Card.Title>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-4" controlId="formBasicEmail">
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter username"
-                      required
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </Form.Group>
-        
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </Form.Group>
-                  <div className="text-center">
-        
+        } catch (error) {
+            console.log("Error:", error);
+            alert("An error occurred. Please try again later.");
+        }
+    };
+
+    return (
+        <Container className="d-flex flex-column align-items-center justify-content-center min-vh-100">
+            <Card className="auth-card p-4 shadow mb-3" style={{ width: "500px" }}>
+                <Card.Title className="mb-4 text-center">
+                    <h2 className="gradient-text">Login</h2>
+                </Card.Title>
+                <Form onSubmit={handleSubmit} className="form-fade-in">
+                    <Form.Group className="mb-4" controlId="formUsername" style={{"--i": 1}}>
+                        <Form.Control
+                            className="custom-input"
+                            type="text"
+                            placeholder="Enter username"
+                            required
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-4" controlId="formPassword" style={{"--i": 2}}>
+                        <Form.Control
+                            className="custom-input"
+                            type="password"
+                            placeholder="Password"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Form.Group>
+
                     <Button
-                      variant="success"
-                      type="submit"
-                      className="btn-lg w-100 rounded-pill"
+                        variant="primary"
+                        type="submit"
+                        className="w-100 custom-button mt-4"
                     >
-                      Submit
+                        Login
                     </Button>
-                  </div>
                 </Form>
-              </Card>
-            </Container>
-          );
-        };
-        
-        export default FormRegister;
-        
+            </Card>
+        </Container>
+    );
+};
 
-
+export default FormLogin;
