@@ -1,5 +1,5 @@
 // FormRegister.jsx (Login)
-import { Button, Container, Card, Form } from "react-bootstrap";
+import { Button, Container, Card, Form,Row,Col } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { SetTokenAction } from '../actions';
@@ -42,45 +42,52 @@ const FormLogin = () => {
     };
 
     return (
-        <Container className="d-flex flex-column align-items-center justify-content-center min-vh-100">
-            <Card className="auth-card p-4 shadow mb-3" style={{ width: "500px" }}>
-                <Card.Title className="mb-4 text-center">
-                    <h2 className="gradient-text">Login</h2>
-                </Card.Title>
-                <Form onSubmit={handleSubmit} className="form-fade-in">
-                    <Form.Group className="mb-4" controlId="formUsername" style={{"--i": 1}}>
-                        <Form.Control
-                            className="custom-input"
-                            type="text"
-                            placeholder="Enter username"
-                            required
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </Form.Group>
+        <div className="form-container position-fixed w-100 h-100 d-flex align-items-center justify-content-center">
+            <Container className="p-3">
+                <Row className="justify-content-center">
+                    <Col xs={12} sm={10} md={8} lg={6} xl={5}>
+                        <Card className="auth-card p-4 shadow">
+                            <Card.Title className="mb-4 text-center">
+                                <h2 className="gradient-text">Login</h2>
+                            </Card.Title>
+                            <Form onSubmit={handleSubmit} className="form-fade-in">
+                                <Form.Group className="mb-4" controlId="formUsername" style={{"--i": 1}}>
+                                    <Form.Control
+                                        className="custom-input"
+                                        type="text"
+                                        placeholder="Enter username"
+                                        required
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                    />
+                                </Form.Group>
 
-                    <Form.Group className="mb-4" controlId="formPassword" style={{"--i": 2}}>
-                        <Form.Control
-                            className="custom-input"
-                            type="password"
-                            placeholder="Password"
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </Form.Group>
+                                <Form.Group className="mb-4" controlId="formPassword" style={{"--i": 2}}>
+                                    <Form.Control
+                                        className="custom-input"
+                                        type="password"
+                                        placeholder="Password"
+                                        required
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                </Form.Group>
 
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        className="w-100 custom-button mt-4"
-                    >
-                        Login
-                    </Button>
-                </Form>
-            </Card>
-        </Container>
+                                <Button
+                                    variant="primary"
+                                    type="submit"
+                                    className="w-100 custom-button mt-4"
+                                >
+                                    Login
+                                </Button>
+                            </Form>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
     );
 };
+
 
 export default FormLogin;

@@ -89,15 +89,12 @@ body {
 @media (min-width: 769px) {
   // Desktop styles
 }
-
-// Card form con effetti avanzati
 .card {
-  width: 500px; // Larghezza fissa più ampia
   background: linear-gradient(
     135deg,
-    rgba(68, 152, 231, 0.3) 0%,    // chit con trasparenza
-    rgba(156, 39, 176, 0.3) 50%,    // viola con trasparenza
-    rgba(63, 81, 181, 0.3) 100%     // blu con trasparenza
+    rgba(68, 152, 231, 0.3) 0%,
+    rgba(156, 39, 176, 0.3) 50%,
+    rgba(63, 81, 181, 0.3) 100%
   );
   border: none;
   border-radius: 15px;
@@ -119,7 +116,7 @@ body {
     }
   }
   
-  // Effetto luminoso che scorre
+  // Effetto luminoso
   &::before {
     content: '';
     position: absolute;
@@ -137,7 +134,7 @@ body {
     transition: transform 0.8s;
   }
   
-  // Stili per il contenuto della card
+  // Titolo
   .card-title {
     color: white;
     font-weight: 700;
@@ -161,14 +158,11 @@ body {
     }
   }
   
-  // Stili per gli input
+  // Input fields
   .form-control {
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
     color: white;
-    padding: 12px 20px;
-    transition: all 0.3s ease;
     
     &::placeholder {
       color: rgba(255, 255, 255, 0.6);
@@ -179,7 +173,7 @@ body {
       background: rgba(255, 255, 255, 0.15);
       border-color: #4498E7;
       box-shadow: 0 0 15px rgba(68, 152, 231, 0.3);
-      transform: translateY(-2px);
+      outline: none;
       
       &::placeholder {
         opacity: 0;
@@ -188,42 +182,30 @@ body {
     }
   }
   
-  // Stili per i bottoni
+  // Bottoni
   .btn {
-    padding: 12px 30px;
-    border-radius: 25px;
     font-weight: 600;
     letter-spacing: 1px;
-    overflow: hidden;
-    position: relative;
-    transition: all 0.3s ease;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.6s ease, height 0.6s ease;
-    }
     
     &:hover {
       transform: translateY(-3px);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      
-      &::before {
-        width: 300px;
-        height: 300px;
-      }
     }
   }
 }
 
-// Animazione di entrata per il form
+// Animazione form groups
+.form-group {
+  animation: formAppear 0.5s ease forwards;
+  opacity: 0;
+  
+  @for $i from 1 through 5 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
 @keyframes formAppear {
   from {
     opacity: 0;
@@ -235,45 +217,49 @@ body {
   }
 }
 
-.form-group {
-  animation: formAppear 0.5s ease forwards;
-  animation-delay: calc(var(--i) * 0.1s);
+@keyframes formAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-// Logo container
+// Logo container responsive
 .logo-container {
   position: relative;
-  width: 200px;
-  height: 200px;
-  margin: 150px auto 50px auto; // Aumentato il margin-top a 150px
-
+  width: min(200px, 40vw);
+  height: min(200px, 40vw);
+  margin: min(150px, 15vh) auto min(50px, 5vh) auto;
 }
 
-// Cerchio esterno con rotazione
+// Cerchio esterno responsive
 .logo-circle {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 4px solid $new-primary;
+  border: min(4px, 0.8vw) solid $new-primary;
   border-radius: 50%;
   animation: rotate 10s linear infinite, pulse 2s ease-in-out infinite;
 }
 
-// Simbolo del codice con rotazione
+// Simbolo del codice responsive
 .logo-code {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60px;  // Dimensione fissa per il contenitore
-  height: 60px; // Dimensione fissa per il contenitore
+  width: min(60px, 30%);
+  height: min(60px, 30%);
   display: flex;
   align-items: center;
   justify-content: center;
   
   &::before {
     content: '</>';
-    font-size: 3rem;
+    font-size: clamp(1.5rem, 5vw, 3rem);
     color: white;
     font-family: 'Courier New', monospace;
     text-shadow: 0 0 10px $new-primary;
@@ -281,7 +267,7 @@ body {
   }
 }
 
-// Particelle orbitanti più veloci
+// Particelle responsive
 .particles {
   position: absolute;
   width: 100%;
@@ -290,8 +276,8 @@ body {
   
   .particle {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: min(8px, 2vw);
+    height: min(8px, 2vw);
     background: $new-success;
     border-radius: 50%;
     
@@ -306,37 +292,81 @@ body {
   }
 }
 
-// Titolo statico
+// Titolo responsive
 .logo-title {
   position: absolute;
   width: 100%;
   text-align: center;
-  bottom: -120px; // Aumentato per dare più spazio
+  bottom: min(-120px, -15vh);
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px; // Spazio tra le parole
+  gap: min(15px, 2vw);
+  white-space: nowrap; // Mantiene il testo su una linea
 
-  // Prima parola (Impossible)
-  .title-main {
-    font-size: 4rem;
-    font-weight: 700;
-    color: white;
+  .title-main, .title-accent {
+    font-size: clamp(2rem, 6vw, 4rem);
     letter-spacing: -1px;
   }
 
-  // Seconda parola (Maybe)
+  .title-main {
+    font-weight: 700;
+    color: white;
+  }
+
   .title-accent {
-    font-size: 4rem;
     font-weight: 500;
     font-style: italic;
     background: linear-gradient(90deg, #9c27b0, #3f51b5);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    letter-spacing: -1px;
   }
 }
+
+// Auth options responsive
+.auth-options {
+  position: relative;
+  z-index: 1;
+  margin-top: min(8rem, 15vh);
+  width: 100%;
+  padding: 0 clamp(1rem, 5vw, 2rem);
+  
+  .auth-link {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    background: transparent;
+    border: none;
+    color: white;
+    padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    
+    &:hover {
+      background: linear-gradient(90deg, #9c27b0, #3f51b5);
+      transform: scale(1.05);
+    }
+  }
+
+  span {
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    opacity: 0.8;
+  }
+}
+
+// Media queries per dispositivi molto piccoli
+@media (max-width: 480px) {
+  .logo-container {
+    margin-top: 10vh;
+  }
+
+  .auth-options {
+    margin-top: 10vh;
+  }
+}
+
+
 
 // Animazioni
 @keyframes rotate {
@@ -384,45 +414,98 @@ body {
   }
 }
 
-.auth-options {
-  position: relative;
-  z-index: 1;
-  margin-top: 8rem; // Aumentato il margine superiore
-  
-  .auth-link {
-    font-size: 1.5rem;
-    background: transparent;
+.custom-navbar {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.9),
+    rgba(30, 30, 30, 0.9)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 1rem 0;
+
+  .navbar-toggler-custom {
     border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    padding: 0.25rem;
     
-    &:hover {
-      background: linear-gradient(90deg, #9c27b0, #3f51b5);
-      transform: scale(1.05);
+    &:focus {
+      box-shadow: none;
+    }
+    
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
   }
 
-  span {
-    font-size: 1.2rem;
-    opacity: 0.8;
-  }
-  .display-1 {
-    font-size: 6rem;
-  }
-  
-  @media (max-width: 768px) {
-    .display-1 {
-      font-size: 4rem;
+  .nav-links {
+    @media (max-width: 991.98px) {
+      padding: 1rem 0;
+      
+      .nav-item {
+        padding: 0.5rem 0;
+        text-align: center;
+        
+        &:not(:last-child) {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+      }
     }
   }
-  
-  @media (max-width: 576px) {
-    .display-1 {
-      font-size: 3rem;
+
+  .nav-item {
+    position: relative;
+    margin: 0 0.5rem;
+    transition: color 0.3s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: $new-primary;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    &:hover {
+      color: $new-primary !important;
+      
+      &::after {
+        width: 100%;
+      }
     }
   }
- 
+
+  .profile-link {
+    @media (min-width: 992px) {
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      
+      &:hover {
+        background: rgba($new-primary, 0.2);
+      }
+    }
+  }
+
+  .navbar-collapse {
+    @media (max-width: 991.98px) {
+      background: rgba(0, 0, 0, 0.95);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+    }
+  }
+
+  .brand-text {
+    .title-main,
+    .title-accent {
+      @media (max-width: 576px) {
+        font-size: 1.25rem !important;
+      }
+    }
+  }
 }
