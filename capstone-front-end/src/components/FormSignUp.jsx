@@ -33,6 +33,7 @@ const FormSignUp = () => {
                 body: JSON.stringify(userData),
             });
             if (response.ok) {
+                alert("Registration successful! Please login to continue.");
                 navigate("/login");
             } else {
                 const error = await response.json();

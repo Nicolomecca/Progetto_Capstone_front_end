@@ -28,6 +28,7 @@ const FormLogin = () => {
             if (response.ok) {
                 const token = await response.json();
                 dispatch(SetTokenAction(token.token));
+                alert("Login successful! Welcome back.");
                 navigate("/home");
 
 
