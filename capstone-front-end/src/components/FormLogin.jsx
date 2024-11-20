@@ -1,11 +1,10 @@
 // FormRegister.jsx (Login)
-import { Button, Container, Card, Form,Row,Col } from "react-bootstrap";
+import { Button, Container, Card, Form, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { SetTokenAction } from '../actions';
+import { setTokenAction } from '../actions';
 import '../assets/style/custom-style.scss';
 import { useNavigate } from 'react-router-dom';
-
 
 const FormLogin = () => {
     const [username, setUsername] = useState("");
@@ -13,10 +12,10 @@ const FormLogin = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const userData = { username, password };
+        
         try {
             const response = await fetch("http://localhost:3001/auth/login", {
                 method: "POST",
@@ -25,13 +24,13 @@ const FormLogin = () => {
                 },
                 body: JSON.stringify(userData),
             });
+
             if (response.ok) {
-                const token = await response.json();
-                dispatch(SetTokenAction(token.token));
+                const data = await response.json();
+                dispatch(setTokenAction(data.token));
+                localStorage.setItem('token', data.token);
                 alert("Login successful! Welcome back.");
-                navigate("/home");
-
-
+                navigate("/language");
             } else {
                 const error = await response.json();
                 alert(error.message);
@@ -89,6 +88,5 @@ const FormLogin = () => {
         </div>
     );
 };
-
 
 export default FormLogin;

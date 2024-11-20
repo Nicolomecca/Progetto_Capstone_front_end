@@ -1,7 +1,7 @@
-import { SET_TOKEN } from "../actions";
+import { SET_TOKEN, REMOVE_TOKEN } from '../actions'
 
 const initialState = {
-    token: null
+    token: localStorage.getItem('token') || null
 }
 
 const tokenReducer = (state = initialState, action) => {
@@ -10,6 +10,11 @@ const tokenReducer = (state = initialState, action) => {
             return {
                 ...state,
                 token: action.payload
+            }
+        case REMOVE_TOKEN:
+            return {
+                ...state,
+                token: null
             }
         default:
             return state
