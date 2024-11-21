@@ -1,0 +1,65 @@
+
+// Definizione colori base
+$new-primary: #1ED760;
+$new-success: #013734;
+$new-warning: #FFAA46;
+$new-dark: #000000;
+
+// Theme colors
+$new-theme-colors: (
+  "primary": $new-primary,
+  "success": $new-success,
+  "warning": $new-warning,
+  "dark": $new-dark,
+  "grayground": #000000,
+  "grayMain": #212121,
+  "grayCard": #2C2C2C
+);
+
+// Merge theme colors
+$theme-colors: map-merge($theme-colors, $new-theme-colors);
+
+// Spacers
+$new-spacers: (
+  6: $spacer * 4,
+  7: $spacer * 5,
+  8: $spacer * 6,
+  9: $spacer * 7,
+  10: $spacer * 8
+);
+
+$spacers: map-merge($spacers, $new-spacers);
+
+// Font sizes
+$new-font-sizes: (
+  small: $font-size-base * .8,
+  medium: $font-size-base,
+  large: $font-size-base * 1.25
+);
+
+$font-sizes: map-merge($font-sizes, $new-font-sizes);
+
+// Utilities
+$utilities: map-merge($utilities,
+  ("width": (
+    property: width,
+    class: w,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto
+    )
+  ))
+);
+
+// Base styles
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: $new-dark;
+}

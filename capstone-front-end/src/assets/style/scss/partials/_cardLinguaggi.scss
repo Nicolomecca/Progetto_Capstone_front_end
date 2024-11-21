@@ -1,0 +1,76 @@
+// Stili per le card dei linguaggi
+.auth-card {
+    background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(63, 81, 181, 0.1));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover {
+      transform: translateY(-10px);
+      background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(63, 81, 181, 0.2));
+      box-shadow: 0 15px 30px rgba(156, 39, 176, 0.2);
+    }
+  
+    .language-icon {
+      background: rgba(156, 39, 176, 0.1);
+      border-radius: 50%;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      
+      img {
+        transition: transform 0.3s ease;
+      }
+    }
+  
+    &:hover .language-icon {
+      background: linear-gradient(135deg, #9c27b0, #3f51b5);
+      
+      img {
+        transform: scale(1.1);
+      }
+    }
+  
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, #9c27b0, #3f51b5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  
+    .underTitle {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1rem;
+    }
+  }
+  
+  .title-main {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  
+  .title-accent {
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #9c27b0, #3f51b5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  @media (max-width: 768px) {
+    .title-main,
+    .title-accent {
+      font-size: 2.5rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .title-main,
+    .title-accent {
+      font-size: 2rem;
+    }
+  }

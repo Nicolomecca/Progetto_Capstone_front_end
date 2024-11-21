@@ -7,6 +7,7 @@ import FormSignUp from './components/FormSignUp.jsx';
 import Welcome from './components/Welcome.jsx';
 import Home from './components/Home.jsx'
 import ChooseLanguage from './components/ChooseLanguage.jsx';
+import AssessmentQuiz from './components/AssessmentQuiz.jsx';
 function App() {
   return (
 <BrowserRouter>
@@ -16,6 +17,8 @@ function App() {
 <Route path='/*' element ={<Welcome/>} />
 <Route path ='/home' element ={<Home/>} />
 <Route path ='/language' element ={<ChooseLanguage/>}/>
+<Route path ='/assessment' element ={<AssessmentQuiz/>}/>
+
 </Routes>
 </BrowserRouter>
   );

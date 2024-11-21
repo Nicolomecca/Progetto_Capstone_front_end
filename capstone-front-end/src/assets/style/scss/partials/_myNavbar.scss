@@ -1,0 +1,96 @@
+
+.custom-navbar {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.9),
+      rgba(30, 30, 30, 0.9)
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1rem 0;
+  
+    .navbar-toggler-custom {
+      border: none;
+      padding: 0.25rem;
+      
+      &:focus {
+        box-shadow: none;
+      }
+      
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+    }
+  
+    .nav-links {
+      @media (max-width: 991.98px) {
+        padding: 1rem 0;
+        
+        .nav-item {
+          padding: 0.5rem 0;
+          text-align: center;
+          
+          &:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          }
+        }
+      }
+    }
+  
+    .nav-item {
+      position: relative;
+      margin: 0 0.5rem;
+      transition: color 0.3s ease;
+  
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: $new-primary;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+  
+      &:hover {
+        color: $new-primary !important;
+        
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  
+    .profile-link {
+      @media (min-width: 992px) {
+        margin-left: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.1);
+        
+        &:hover {
+          background: rgba($new-primary, 0.2);
+        }
+      }
+    }
+  
+    .navbar-collapse {
+      @media (max-width: 991.98px) {
+        background: rgba(0, 0, 0, 0.95);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 0.5rem;
+      }
+    }
+  
+    .brand-text {
+      .title-main,
+      .title-accent {
+        @media (max-width: 576px) {
+          font-size: 1.25rem !important;
+        }
+      }
+    }
+}

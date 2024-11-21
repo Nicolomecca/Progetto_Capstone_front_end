@@ -1,0 +1,138 @@
+.card {
+    background: linear-gradient(
+      135deg,
+      rgba(68, 152, 231, 0.3) 0%,
+      rgba(156, 39, 176, 0.3) 50%,
+      rgba(63, 81, 181, 0.3) 100%
+    );
+    border: none;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    
+    // Effetto hover sulla card
+    &:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+      
+      &::before {
+        transform: translateX(0);
+        opacity: 0.1;
+      }
+    }
+    
+    // Effetto luminoso
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transform: translateX(-100%);
+      transition: transform 0.8s;
+    }
+    
+    // Titolo
+    .card-title {
+      color: white;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(90deg, #4498E7, #9c27b0);
+        transition: width 0.3s ease;
+      }
+      
+      &:hover::after {
+        width: 100px;
+      }
+    }
+    
+    // Input fields
+    .form-control {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+      }
+      
+      &:focus {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: #4498E7;
+        box-shadow: 0 0 15px rgba(68, 152, 231, 0.3);
+        outline: none;
+        
+        &::placeholder {
+          opacity: 0;
+          transform: translateX(10px);
+        }
+      }
+    }
+    
+    // Bottoni
+    .btn {
+      font-weight: 600;
+      letter-spacing: 1px;
+      
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+  
+  // Animazione form groups
+  .form-group {
+    animation: formAppear 0.5s ease forwards;
+    opacity: 0;
+    
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.1}s;
+      }
+    }
+  }
+  
+  @keyframes formAppear {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes formAppear {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
