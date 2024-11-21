@@ -1,0 +1,44 @@
+// Auth options responsive
+.auth-bot {
+    position: relative;
+    z-index: 1;
+    margin-top: min(2rem, 15vh);
+    width: 100%;
+    padding: 0 clamp(1rem, 5vw, 2rem);
+    
+    .auth-links{
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      background: transparent;
+      border: none;
+      color: white;
+      padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px);
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+      
+      &:hover {
+        background: linear-gradient(90deg, #9c27b0, #3f51b5);
+        transform: scale(1.05);
+      }
+    }
+}
+.progress {
+    background-color: rgba($new-primary, 0.2);
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba($new-primary, 0.5);
+  
+    .progress-bar {
+      background: linear-gradient(90deg, $new-primary, #00ff00);
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: width 0.5s ease;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+      box-shadow: 0 0 15px #00ff00;
+    }
+  }

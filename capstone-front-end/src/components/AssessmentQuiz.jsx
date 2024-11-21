@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Container, Card, Form, Button, ProgressBar } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, ProgressBar } from 'react-bootstrap';
 
 const AssessmentQuiz = () => {
     const location = useLocation();
@@ -46,40 +46,44 @@ const AssessmentQuiz = () => {
 
     return (
         <Container className="mt-5">
-            <h2 className="mb-4 text-white">Assessment for {languageName}</h2>
-            <ProgressBar now={progress} label={`${Math.round(progress)}%`} className="mb-4" />
-            <Card bg="dark" text="white" className="shadow">
-                <Card.Body>
-                    <Card.Title className="text-white">Question {currentQuestionIndex + 1} of {questions.length}</Card.Title>
-                    <Card.Text className="text-white">{currentQuestion.question}</Card.Text>
-                    {currentQuestion.description && <Card.Text className="text-muted">{currentQuestion.description}</Card.Text>}
-                    <Form>
-                        {Object.entries(currentQuestion.answers).map(([key, value]) => {
-                            if (value === null) return null;
-                            return (
-                                <Form.Check
-                                    key={key}
-                                    type="radio"
-                                    id={`q${currentQuestion.id}${key}`}
-                                    name={`question${currentQuestion.id}`}
-                                    label={value}
-                                    onChange={() => handleAnswerChange(currentQuestion.id, key)}
-                                    checked={answers[currentQuestion.id] === key}
-                                    className="text-white mb-2"
-                                />
-                            );
-                        })}
-                    </Form>
-                </Card.Body>
-                <Card.Footer className="d-flex justify-content-between bg-dark border-top border-secondary">
-                    <Button variant="outline-light" onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</Button>
-                    {currentQuestionIndex < questions.length - 1 ? (
-                        <Button variant="outline-light" onClick={handleNextQuestion}>Next</Button>
-                    ) : (
-                        <Button variant="success" onClick={handleSubmit}>Submit</Button>
-                    )}
-                </Card.Footer>
-            </Card>
+            <Row className="justify-content-center">
+                <Col xs={12} sm={10} md={8} lg={6}>
+                    <h2 className="mb-4 text-white text-center">Assessment for {languageName}</h2>
+                    <ProgressBar now={progress}  label={`${Math.round(progress)}%`} className="mb-4 progress" />
+                    <Card bg="dark" text="white" className="shadow">
+                        <Card.Body>
+                            <Card.Title className="text-white">Question {currentQuestionIndex + 1} of {questions.length}</Card.Title>
+                            <Card.Text className="text-white">{currentQuestion.question}</Card.Text>
+                            {currentQuestion.description && <Card.Text className="text-muted">{currentQuestion.description}</Card.Text>}
+                            <Form>
+                                {Object.entries(currentQuestion.answers).map(([key, value]) => {
+                                    if (value === null) return null;
+                                    return (
+                                        <Form.Check
+                                            key={key}
+                                            type="radio"
+                                            id={`q${currentQuestion.id}${key}`}
+                                            name={`question${currentQuestion.id}`}
+                                            label={value}
+                                            onChange={() => handleAnswerChange(currentQuestion.id, key)}
+                                            checked={answers[currentQuestion.id] === key}
+                                            className="text-white mb-2"
+                                        />
+                                    );
+                                })}
+                            </Form>
+                        </Card.Body>
+                        <Card.Footer className="d-flex justify-content-between auth-bot">
+                            <Button  className="auth-links" onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</Button>
+                            {currentQuestionIndex < questions.length - 1 ? (
+                                <Button className="auth-links" onClick={handleNextQuestion}>Next</Button>
+                            ) : (
+                                <Button className="auth-links" onClick={handleSubmit}>Submit</Button>
+                            )}
+                        </Card.Footer>
+                    </Card>
+                </Col>
+            </Row>
         </Container>
     );
 };
