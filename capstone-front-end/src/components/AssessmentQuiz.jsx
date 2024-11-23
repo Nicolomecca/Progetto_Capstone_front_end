@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Card, Form, Button, ProgressBar } from 'react-bootstrap';
@@ -11,10 +11,14 @@ const AssessmentQuiz = () => {
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState({});
+    const [correctAnswers, setCorrectAnswers] = useState(0);
+    const [incorrectAnswers, setIncorrectAnswers] = useState(0);
 
-    if (!questions || questions.length === 0) {
-        return <Container className="mt-5"><h2 className="text-white">No questions available.</h2></Container>;
-    }
+    useEffect(() => {
+        if (!questions || questions.length === 0) {
+            navigate('/choose-language');
+        }
+    }, [questions, navigate]);
 
     const currentQuestion = questions[currentQuestionIndex];
 
@@ -36,20 +40,80 @@ const AssessmentQuiz = () => {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
     };
-
+    const calculateScore = () => {
+        let correct = 0;
+        let incorrect = 0;
+        questions.forEach(question => {
+            const userAnswer = answers[question.id];
+            if (userAnswer && question.correct_answers[`${userAnswer}_correct`] === "true") {
+                correct++;
+            } else {
+                incorrect++;
+            }
+        });
+        setCorrectAnswers(correct);
+        setIncorrectAnswers(incorrect);
+        return Math.round((correct / questions.length) * 100);
+    };
     const handleSubmit = async () => {
-        console.log("Answers submitted:", answers);
-        // Implementa qui la logica per inviare le risposte al server
+        const score = calculateScore();
+        console.log('Calculated score:', score);
+        console.log('Submitting assessment for language:', languageName);
+        
+        try {
+            console.log('Sending request with data:', {
+                programmingLanguageName: languageName,
+                score: score
+            });
+            
+            const response = await fetch('http://localhost:3001/assessment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    programmingLanguageName: languageName,
+                    score: score
+                })
+            });
+    
+            console.log('Response status:', response.status);
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Assessment submitted successfully. Result:', result);
+                navigate('/assessment-result', { 
+                    state: { 
+                        result,
+                        correctAnswers,
+                        incorrectAnswers,
+                        totalQuestions: questions.length
+                    }
+                });
+            } else {
+                const errorText = await response.text();
+                console.error('Failed to submit assessment. Server response:', errorText);
+                throw new Error('Failed to submit assessment');
+            }
+        } catch (error) {
+            console.error('Error submitting assessment:', error);
+            // Gestisci l'errore (ad esempio, mostrando un messaggio all'utente)
+        }
     };
 
     const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+    if (!currentQuestion) {
+        return <Container className="mt-5"><h2 className="text-white">Loading...</h2></Container>;
+    }
 
     return (
         <Container className="mt-5">
             <Row className="justify-content-center">
                 <Col xs={12} sm={10} md={8} lg={6}>
                     <h2 className="mb-4 text-white text-center">Assessment for {languageName}</h2>
-                    <ProgressBar now={progress}  label={`${Math.round(progress)}%`} className="mb-4 progress" />
+                    <ProgressBar now={progress} label={`${Math.round(progress)}%`} className="mb-4 progress" />
                     <Card bg="dark" text="white" className="shadow">
                         <Card.Body>
                             <Card.Title className="text-white">Question {currentQuestionIndex + 1} of {questions.length}</Card.Title>
@@ -74,7 +138,7 @@ const AssessmentQuiz = () => {
                             </Form>
                         </Card.Body>
                         <Card.Footer className="d-flex justify-content-between auth-bot">
-                            <Button  className="auth-links" onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</Button>
+                            <Button className="auth-links" onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</Button>
                             {currentQuestionIndex < questions.length - 1 ? (
                                 <Button className="auth-links" onClick={handleNextQuestion}>Next</Button>
                             ) : (
