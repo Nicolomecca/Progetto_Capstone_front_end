@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Card, Form, Button, ProgressBar } from 'react-bootstrap';
+import QuizResult from './QuizResult';
 
 const AssessmentQuiz = () => {
     const location = useLocation();
@@ -13,6 +14,8 @@ const AssessmentQuiz = () => {
     const [answers, setAnswers] = useState({});
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [incorrectAnswers, setIncorrectAnswers] = useState(0);
+    const [quizCompleted, setQuizCompleted] = useState(false);
+    const [quizResult, setQuizResult] = useState(null);
 
     useEffect(() => {
         if (!questions || questions.length === 0) {
@@ -40,6 +43,7 @@ const AssessmentQuiz = () => {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
     };
+
     const calculateScore = () => {
         let correct = 0;
         let incorrect = 0;
@@ -55,6 +59,7 @@ const AssessmentQuiz = () => {
         setIncorrectAnswers(incorrect);
         return Math.round((correct / questions.length) * 100);
     };
+
     const handleSubmit = async () => {
         const score = calculateScore();
         console.log('Calculated score:', score);
@@ -83,14 +88,8 @@ const AssessmentQuiz = () => {
             if (response.ok) {
                 const result = await response.json();
                 console.log('Assessment submitted successfully. Result:', result);
-                navigate('/assessment-result', { 
-                    state: { 
-                        result,
-                        correctAnswers,
-                        incorrectAnswers,
-                        totalQuestions: questions.length
-                    }
-                });
+                setQuizResult(result);
+                setQuizCompleted(true);
             } else {
                 const errorText = await response.text();
                 console.error('Failed to submit assessment. Server response:', errorText);
@@ -113,39 +112,50 @@ const AssessmentQuiz = () => {
             <Row className="justify-content-center">
                 <Col xs={12} sm={10} md={8} lg={6}>
                     <h2 className="mb-4 text-white text-center">Assessment for {languageName}</h2>
-                    <ProgressBar now={progress} label={`${Math.round(progress)}%`} className="mb-4 progress" />
-                    <Card bg="dark" text="white" className="shadow">
-                        <Card.Body>
-                            <Card.Title className="text-white">Question {currentQuestionIndex + 1} of {questions.length}</Card.Title>
-                            <Card.Text className="text-white">{currentQuestion.question}</Card.Text>
-                            {currentQuestion.description && <Card.Text className="text-muted">{currentQuestion.description}</Card.Text>}
-                            <Form>
-                                {Object.entries(currentQuestion.answers).map(([key, value]) => {
-                                    if (value === null) return null;
-                                    return (
-                                        <Form.Check
-                                            key={key}
-                                            type="radio"
-                                            id={`q${currentQuestion.id}${key}`}
-                                            name={`question${currentQuestion.id}`}
-                                            label={value}
-                                            onChange={() => handleAnswerChange(currentQuestion.id, key)}
-                                            checked={answers[currentQuestion.id] === key}
-                                            className="text-white mb-2"
-                                        />
-                                    );
-                                })}
-                            </Form>
-                        </Card.Body>
-                        <Card.Footer className="d-flex justify-content-between auth-bot">
-                            <Button className="auth-links" onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</Button>
-                            {currentQuestionIndex < questions.length - 1 ? (
-                                <Button className="auth-links" onClick={handleNextQuestion}>Next</Button>
-                            ) : (
-                                <Button className="auth-links" onClick={handleSubmit}>Submit</Button>
-                            )}
-                        </Card.Footer>
-                    </Card>
+                    {!quizCompleted ? (
+                        <>
+                            <ProgressBar now={progress} label={`${Math.round(progress)}%`} className="mb-4 progress" />
+                            <Card bg="dark" text="white" className="shadow">
+                                <Card.Body>
+                                    <Card.Title className="text-white">Question {currentQuestionIndex + 1} of {questions.length}</Card.Title>
+                                    <Card.Text className="text-white">{currentQuestion.question}</Card.Text>
+                                    {currentQuestion.description && <Card.Text className="text-muted">{currentQuestion.description}</Card.Text>}
+                                    <Form>
+                                        {Object.entries(currentQuestion.answers).map(([key, value]) => {
+                                            if (value === null) return null;
+                                            return (
+                                                <Form.Check
+                                                    key={key}
+                                                    type="radio"
+                                                    id={`q${currentQuestion.id}${key}`}
+                                                    name={`question${currentQuestion.id}`}
+                                                    label={value}
+                                                    onChange={() => handleAnswerChange(currentQuestion.id, key)}
+                                                    checked={answers[currentQuestion.id] === key}
+                                                    className="text-white mb-2"
+                                                />
+                                            );
+                                        })}
+                                    </Form>
+                                </Card.Body>
+                                <Card.Footer className="d-flex justify-content-between auth-bot">
+                                    <Button className="auth-links" onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</Button>
+                                    {currentQuestionIndex < questions.length - 1 ? (
+                                        <Button className="auth-links" onClick={handleNextQuestion}>Next</Button>
+                                    ) : (
+                                        <Button className="auth-links" onClick={handleSubmit}>Submit</Button>
+                                    )}
+                                </Card.Footer>
+                            </Card>
+                        </>
+                    ) : (
+                        <QuizResult 
+                            result={quizResult}
+                            correctAnswers={correctAnswers}
+                            incorrectAnswers={incorrectAnswers}
+                            totalQuestions={questions.length}
+                        />
+                    )}
                 </Col>
             </Row>
         </Container>
