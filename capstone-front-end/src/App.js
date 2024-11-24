@@ -8,6 +8,10 @@ import Welcome from './components/Welcome.jsx';
 import Home from './components/Home.jsx'
 import ChooseLanguage from './components/ChooseLanguage.jsx';
 import AssessmentQuiz from './components/AssessmentQuiz.jsx';
+import ProgrammingLanguageDetails from './components/ProgrammingLanguageDetails.jsx';
+import TheoryFullView from './components/TheoryFullView';
+
+
 function App() {
   return (
 <BrowserRouter>
@@ -18,6 +22,8 @@ function App() {
 <Route path ='/home' element ={<Home/>} />
 <Route path ='/language' element ={<ChooseLanguage/>}/>
 <Route path ='/assessment' element ={<AssessmentQuiz/>}/>
+<Route path='/theory' element={<ProgrammingLanguageDetails/>} />
+<Route path="/theory/:languageName" element={<TheoryFullView />} />
 
 </Routes>
 </BrowserRouter>

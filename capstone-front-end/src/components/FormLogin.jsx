@@ -1,4 +1,3 @@
-// FormRegister.jsx (Login)
 import { Button, Container, Card, Form, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -11,6 +10,25 @@ const FormLogin = () => {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const checkAssessmentCompletion = async (token) => {
+        try {
+            const response = await fetch("http://localhost:3001/assessment/user/completed", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                return data.completed;
+            }
+            return false;
+        } catch (error) {
+            console.error("Error checking assessment completion:", error);
+            return false;
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,8 +47,16 @@ const FormLogin = () => {
                 const data = await response.json();
                 dispatch(setTokenAction(data.token));
                 localStorage.setItem('token', data.token);
+                
+                const assessmentCompleted = await checkAssessmentCompletion(data.token);
+                
+                if (assessmentCompleted) {
+                    navigate("/home");
+                } else {
+                    navigate("/language");
+                }
+                
                 alert("Login successful! Welcome back.");
-                navigate("/language");
             } else {
                 const error = await response.json();
                 alert(error.message);
