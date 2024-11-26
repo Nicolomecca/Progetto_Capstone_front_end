@@ -1,0 +1,96 @@
+.cube-container {
+    perspective: 1000px;
+    width: 300px;
+    height: 300px;
+  }
+  .cube-container {
+    perspective: 1000px;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+  }
+  
+  .cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotate 8s infinite linear;
+    transition: all 0.3s ease;
+  }
+  
+  .face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    backface-visibility: visible;
+    transition: all 0.3s ease;
+  }
+  
+  .face:hover {
+    background: rgba(0, 0, 0, 0.95);
+    border-color: #00ff99;
+    box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
+  }
+  
+  .front  { transform: translateZ(150px); }
+  .back   { transform: rotateY(180deg) translateZ(150px); }
+  .right  { transform: rotateY(90deg) translateZ(150px); }
+  .left   { transform: rotateY(-90deg) translateZ(150px); }
+  .top    { transform: rotateX(90deg) translateZ(150px); }
+  .bottom { transform: rotateX(-90deg) translateZ(150px); }
+  
+  @keyframes rotate {
+    from {
+      transform: rotateX(0) rotateY(0) rotateZ(0);
+    }
+    to {
+      transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+  }
+  
+  .green-gradient-text {
+    background: linear-gradient(45deg, #00ff00, #00cc00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  }
+  
+  .purple-gradient-text {
+    background: linear-gradient(45deg, #ff00ff, #cc00cc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+  }
+  
+  .cube:hover {
+    animation-play-state: paused;
+    transform: scale(1.1);
+  }
+  
+  @media (max-width: 768px) {
+    .cube-container {
+      width: 200px;
+      height: 200px;
+    }
+  
+    .face {
+      font-size: 1.5rem;
+    }
+  
+    .front, .back, .right, .left, .top, .bottom {
+      transform: translateZ(100px);
+    }
+  }

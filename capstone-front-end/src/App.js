@@ -11,25 +11,32 @@ import AssessmentQuiz from './components/AssessmentQuiz.jsx';
 import ProgrammingLanguageDetails from './components/ProgrammingLanguageDetails.jsx';
 import TheoryFullView from './components/TheoryFullView';
 import QuizPage from './components/QuizPage';
+import MyNavbar from './components/MyNavbar';
+import Technologies from './components/Technologies.jsx';
 
+const Layout = ({ children }) => (
+  <>
+    <MyNavbar />
+    {children}
+  </>
+);
 
 function App() {
   return (
-<BrowserRouter>
-<Routes>
-<Route path='/login' element={<FormLogin />} />
-<Route path='/signup' element ={ <FormSignUp/>} />
-<Route path='/*' element ={<Welcome/>} />
-<Route path ='/home' element ={<Home/>} />
-<Route path ='/language' element ={<ChooseLanguage/>}/>
-<Route path ='/assessment' element ={<AssessmentQuiz/>}/>
-<Route path='/theory' element={<ProgrammingLanguageDetails/>} />
-<Route path="/theory/:languageName" element={<TheoryFullView />} />
-<Route path="/quiz" element={<QuizPage />} />
-
-
-</Routes>
-</BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={<FormLogin />} />
+        <Route path='/signup' element={<FormSignUp />} />
+        <Route path='/assessment' element={<AssessmentQuiz />} />
+        <Route path='/*' element={<Welcome />} />
+        <Route path='/home' element={<Layout><Home /></Layout>} />
+        <Route path='/language' element={<ChooseLanguage />} />
+        <Route path='/theory' element={<Layout><ProgrammingLanguageDetails /></Layout>} />
+        <Route path="/theory/:languageName" element={<Layout><TheoryFullView /></Layout>} />
+        <Route path="/quiz" element={<Layout> <QuizPage /></Layout>} />
+        <Route path= "/technologies" element ={<Layout><Technologies/></Layout>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

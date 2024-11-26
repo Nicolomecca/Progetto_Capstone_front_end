@@ -11,24 +11,24 @@ const FormLogin = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const checkAssessmentCompletion = async (token) => {
-        try {
-            const response = await fetch("http://localhost:3001/assessment/user/completed", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-            if (response.ok) {
-                const data = await response.json();
-                return data.completed;
+const checkAssessmentCompletion = async (token) => {
+    try {
+        const response = await fetch("http://localhost:3001/user/levels", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
             }
-            return false;
-        } catch (error) {
-            console.error("Error checking assessment completion:", error);
-            return false;
+        });
+        if (response.ok) {
+            const levels = await response.json();
+            return Object.keys(levels).length > 0;
         }
-    };
+        return false;
+    } catch (error) {
+        console.error("Error checking assessment completion:", error);
+        return false;
+    }
+};
 
     const handleSubmit = async (e) => {
         e.preventDefault();
