@@ -10,6 +10,7 @@ import ChooseLanguage from './components/ChooseLanguage.jsx';
 import AssessmentQuiz from './components/AssessmentQuiz.jsx';
 import ProgrammingLanguageDetails from './components/ProgrammingLanguageDetails.jsx';
 import TheoryFullView from './components/TheoryFullView';
+import QuizPage from './components/QuizPage';
 
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
 <Route path ='/assessment' element ={<AssessmentQuiz/>}/>
 <Route path='/theory' element={<ProgrammingLanguageDetails/>} />
 <Route path="/theory/:languageName" element={<TheoryFullView />} />
+<Route path="/quiz" element={<QuizPage />} />
+
 
 </Routes>
 </BrowserRouter>
