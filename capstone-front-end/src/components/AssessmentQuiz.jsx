@@ -9,7 +9,7 @@ const AssessmentQuiz = () => {
     const navigate = useNavigate();
     const { questions, languageName } = location.state || {};
     const token = useSelector(state => state.token.token);
-
+    const [hasCompletedAssessment, setHasCompletedAssessment] = useState(false);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState({});
     const [correctAnswers, setCorrectAnswers] = useState(0);
@@ -20,8 +20,10 @@ const AssessmentQuiz = () => {
     useEffect(() => {
         if (!questions || questions.length === 0) {
             navigate('/choose-language');
+        }else{
+            checkAssessmentCompletion();
         }
-    }, [questions, navigate]);
+    }, [questions, navigate,languageName,token]);
 
     const currentQuestion = questions[currentQuestionIndex];
 
@@ -31,6 +33,26 @@ const AssessmentQuiz = () => {
             [questionId]: answerKey
         }));
     };
+    const checkAssessmentCompletion = async () => {
+        try {
+          const response = await fetch(`http://localhost:3001/assessment/user/completed/${languageName}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setHasCompletedAssessment(data.completed);
+            if (data.completed) {
+              navigate('/choose-language', { state: { message: `You have already completed the assessment for ${languageName}.` } });
+            }
+          } else {
+            console.error('Failed to check assessment completion');
+          }
+        } catch (error) {
+          console.error('Error checking assessment completion:', error);
+        }
+      };
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < questions.length - 1) {
