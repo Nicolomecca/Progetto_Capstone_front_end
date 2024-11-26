@@ -1,8 +1,7 @@
-.cube-container {
-    perspective: 1000px;
-    width: 300px;
-    height: 300px;
+.cube-bg-black {
+    background-color: #000;
   }
+  
   .cube-container {
     perspective: 1000px;
     width: 300px;
@@ -15,11 +14,11 @@
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    animation: rotate 8s infinite linear;
+    animation: cubeRotate 8s infinite linear;
     transition: all 0.3s ease;
   }
   
-  .face {
+  .cube-face {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -37,20 +36,20 @@
     transition: all 0.3s ease;
   }
   
-  .face:hover {
+  .cube-face:hover {
     background: rgba(0, 0, 0, 0.95);
     border-color: #00ff99;
     box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
   }
   
-  .front  { transform: translateZ(150px); }
-  .back   { transform: rotateY(180deg) translateZ(150px); }
-  .right  { transform: rotateY(90deg) translateZ(150px); }
-  .left   { transform: rotateY(-90deg) translateZ(150px); }
-  .top    { transform: rotateX(90deg) translateZ(150px); }
-  .bottom { transform: rotateX(-90deg) translateZ(150px); }
+  .cube-front  { transform: translateZ(150px); }
+  .cube-back   { transform: rotateY(180deg) translateZ(150px); }
+  .cube-right  { transform: rotateY(90deg) translateZ(150px); }
+  .cube-left   { transform: rotateY(-90deg) translateZ(150px); }
+  .cube-top    { transform: rotateX(90deg) translateZ(150px); }
+  .cube-bottom { transform: rotateX(-90deg) translateZ(150px); }
   
-  @keyframes rotate {
+  @keyframes cubeRotate {
     from {
       transform: rotateX(0) rotateY(0) rotateZ(0);
     }
@@ -59,7 +58,7 @@
     }
   }
   
-  .green-gradient-text {
+  .cube-green-text {
     background: linear-gradient(45deg, #00ff00, #00cc00);
     -webkit-background-clip: text;
     background-clip: text;
@@ -67,7 +66,7 @@
     text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
   }
   
-  .purple-gradient-text {
+  .cube-purple-text {
     background: linear-gradient(45deg, #ff00ff, #cc00cc);
     -webkit-background-clip: text;
     background-clip: text;
@@ -86,11 +85,11 @@
       height: 200px;
     }
   
-    .face {
+    .cube-face {
       font-size: 1.5rem;
     }
   
-    .front, .back, .right, .left, .top, .bottom {
+    .cube-front, .cube-back, .cube-right, .cube-left, .cube-top, .cube-bottom {
       transform: translateZ(100px);
     }
   }

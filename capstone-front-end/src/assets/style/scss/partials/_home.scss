@@ -1,8 +1,8 @@
-.bg-black {
+.home-bg-black {
     background-color: #000;
   }
   
-  .mega-title {
+  .home-mega-title {
     font-size: 8rem;
     line-height: 1;
     font-weight: 700;
@@ -10,40 +10,47 @@
     text-align: center;
   }
   
-  .gradient-text {
-    background: linear-gradient(135deg, #9c27b0, #3f51b5);
+  .home-green-text {
+    background: linear-gradient(135deg, #0a5d24, #1ED760, #0f8a33, #28a745);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   
-  .title-animation {
-    opacity: 0;
-    animation: fadeInUp 1.5s ease-out forwards;
+  .home-purple-text {
+    background: linear-gradient(135deg, #4a0f66, #7b1fa2, #1a237e, #303f9f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   
-  .title-word {
+  .home-title-animation {
+    opacity: 0;
+    animation: homeFadeInUp 1.5s ease-out forwards;
+  }
+  
+  .home-title-word {
     display: inline-block;
     opacity: 0;
     transform: translateY(30px);
   }
   
-  .title-word:nth-child(1) {
-    animation: fadeInUp 1.2s ease-out 0.3s forwards;
+  .home-title-word:nth-child(1) {
+    animation: homeFadeInUp 1.2s ease-out 0.3s forwards;
   }
   
-  .title-word:nth-child(2) {
-    animation: fadeInUp 1.2s ease-out 0.6s forwards;
+  .home-title-word:nth-child(2) {
+    animation: homeFadeInUp 1.2s ease-out 0.6s forwards;
   }
   
-  .subtitle-animation {
+  .home-subtitle-animation {
     opacity: 0;
-    animation: fadeInUp 1.2s ease-out 1s forwards;
+    animation: homeFadeInUp 1.2s ease-out 1s forwards;
     font-weight: 500;
     text-align: center;
   }
   
-  @keyframes fadeInUp {
+  @keyframes homeFadeInUp {
     0% {
       opacity: 0;
       transform: translateY(30px);
@@ -55,31 +62,19 @@
   }
   
   @media (max-width: 768px) {
-    .mega-title {
+    .home-mega-title {
       font-size: 4rem;
     }
-    .subtitle-animation {
+    .home-subtitle-animation {
       font-size: 1.5rem !important;
     }
   }
   
   @media (max-width: 576px) {
-    .mega-title {
+    .home-mega-title {
       font-size: 3rem;
     }
-    .subtitle-animation {
+    .home-subtitle-animation {
       font-size: 1.25rem !important;
     }
-  }
-  .green-gradient-text {
-    background: linear-gradient(135deg, #0a5d24, #1ED760, #0f8a33, #28a745);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .purple-gradient-text {
-    background: linear-gradient(135deg, #4a0f66, #7b1fa2, #1a237e, #303f9f);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
   }
