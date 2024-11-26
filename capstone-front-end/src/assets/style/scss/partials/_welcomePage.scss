@@ -1,91 +1,112 @@
+// Logo container with 3D perspective
+.logo-container {
+  position: relative;
+  width: min(200px, 40vw);
+  height: min(200px, 40vw);
+  margin: min(150px, 15vh) auto min(50px, 5vh) auto;
+  perspective: 1000px;
+  transform-style: preserve-3d[1];
+}
 
-// Utility classes
-.scale-hover {
-    transition: transform 0.3s ease;
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
+// 3D rotating outer circle
+.logo-circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: min(4px, 0.8vw) solid $new-primary;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  animation: rotate3D 10s linear infinite;
+}
+
+// 3D code symbol with depth
+.logo-code {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateZ(50px);
+  width: min(60px, 30%);
+  height: min(60px, 30%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  animation: codeRotate 8s linear infinite;
   
-  .truncate-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  &::before {
+    content: '</>';
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    color: white;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px $new-primary;
+    animation: glow 1.5s ease-in-out infinite alternate;
   }
-  
-  // Media queries
-  @media (max-width: 768px) {
-    // Mobile styles
+}
+
+@keyframes codeRotate {
+  from {
+    transform: translate(-50%, -50%) translateZ(50px) rotateY(0deg);
   }
-  
-  @media (min-width: 769px) {
-    // Desktop styles
+  to {
+    transform: translate(-50%, -50%) translateZ(50px) rotateY(360deg);
   }
-  
-  // Logo container responsive
-  .logo-container {
-    position: relative;
-    width: min(200px, 40vw);
-    height: min(200px, 40vw);
-    margin: min(150px, 15vh) auto min(50px, 5vh) auto;
+}
+@keyframes codeRotate {
+  0% {
+    transform: translate(-50%, -50%) translateZ(50px) rotateY(0deg) rotateX(0deg);
   }
+  50% {
+    transform: translate(-50%, -50%) translateZ(50px) rotateY(180deg) rotateX(180deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateZ(50px) rotateY(360deg) rotateX(360deg);
+  }
+}
+
+// 3D floating particles
+.particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
   
-  // Cerchio esterno responsive
-  .logo-circle {
+  .particle {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    border: min(4px, 0.8vw) solid $new-primary;
+    width: min(8px, 2vw);
+    height: min(8px, 2vw);
+    background: $new-success;
     border-radius: 50%;
-    animation: rotate 10s linear infinite, pulse 2s ease-in-out infinite;
-  }
-  
-  // Simbolo del codice responsive
-  .logo-code {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(60px, 30%);
-    height: min(60px, 30%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     
-    &::before {
-      content: '</>';
-      font-size: clamp(1.5rem, 5vw, 3rem);
-      color: white;
-      font-family: 'Courier New', monospace;
-      text-shadow: 0 0 10px $new-primary;
-      animation: rotate 10s linear infinite, glow 1.5s ease-in-out infinite alternate;
-    }
-  }
-  
-  // Particelle responsive
-  .particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    animation: rotate 8s linear infinite;
-    
-    .particle {
-      position: absolute;
-      width: min(8px, 2vw);
-      height: min(8px, 2vw);
-      background: $new-success;
-      border-radius: 50%;
-      
-      @for $i from 1 through 8 {
-        &:nth-child(#{$i}) {
-          top: percentage(random(100) / 100);
-          left: percentage(random(100) / 100);
-          animation: float #{1 + random(2)}s ease-in-out infinite;
-          animation-delay: #{random(1)}s;
-        }
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) {
+        top: percentage(random(100) / 100);
+        left: percentage(random(100) / 100);
+        transform: translateZ(#{random(100)}px);
+        animation: float3D #{1 + random(2)}s ease-in-out infinite;
       }
     }
   }
+}
+
+// 3D animations
+@keyframes rotate3D {
+  from {
+    transform: rotateX(20deg) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(20deg) rotateY(360deg);
+  }
+}
+
+@keyframes float3D {
+  0%, 100% {
+    transform: translateZ(50px) translateY(0);
+  }
+  50% {
+    transform: translateZ(80px) translateY(-20px);
+  }
+}
+
   
   // Titolo responsive
   .logo-title {
