@@ -3,22 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Timer = ({ duration, onTimeout, currentQuestion }) => {
   const [key, setKey] = useState(0);
-  const [isRunning, setIsRunning] = useState(true);
 
   useEffect(() => {
-    setIsRunning(true);
     setKey(prevKey => prevKey + 1);
     
     const timer = setTimeout(() => {
-      if (isRunning) {
-        onTimeout();
-      }
+      onTimeout();
     }, duration * 1000);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [currentQuestion]);
+    return () => clearTimeout(timer);
+  }, [currentQuestion, duration, onTimeout]);
 
   return (
     <AnimatePresence mode="wait">
