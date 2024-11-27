@@ -150,50 +150,62 @@ const QuizPage = () => {
   const handleSubmitQuiz = async () => {
     const { correct, incorrect, score } = calculateScoreDetails();
     let mappedDifficulty;
+    
     switch (selectedDifficulty) {
-      case "BEGINNER":
-        mappedDifficulty = "EASY";
-        break;
-      case "INTERMEDIATE":
-        mappedDifficulty = "MEDIUM";
-        break;
-      case "ADVANCED":
-      case "EXPERT":
-        mappedDifficulty = "HARD";
-        break;
-      default:
-        console.error("Invalid difficulty level");
-        return;
+        case "BEGINNER":
+            mappedDifficulty = "EASY";
+            break;
+        case "INTERMEDIATE":
+            mappedDifficulty = "MEDIUM";
+            break;
+        case "ADVANCED":
+        case "EXPERT":
+            mappedDifficulty = "HARD";
+            break;
+        default:
+            console.error("Invalid difficulty level");
+            return;
     }
-    try {
-      const response = await fetch("http://localhost:3001/quiz/result", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          programmingLanguageName: selectedLanguage,
-          difficulty: mappedDifficulty,
-          score: score,
-        }),
-      });
-      if (response.ok) {
-        const resultData = await response.json();
-        setQuizResult({
-          ...resultData,
-          correctAnswers: correct,
-          incorrectAnswers: incorrect,
-        });
-        setQuizCompleted(true);
-      } else {
-        console.error("Failed to submit quiz results");
-      }
-    } catch (error) {
-      console.error("Error submitting quiz results:", error);
-    }
-  };
 
+    // Preparo le domande e risposte
+    const questions = quizQuestions.map(question => ({
+      questionText: question.question,
+      answers: question.answers,
+      userAnswer: userAnswers[question.id],
+      correctAnswer: Object.keys(question.correct_answers)
+          .find(key => question.correct_answers[key] === "true")
+  }));
+
+    try {
+        const response = await fetch("http://localhost:3001/quiz/result", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                languageName: selectedLanguage,
+                difficulty: mappedDifficulty,
+                score: score,
+                questions: questions
+            }),
+        });
+
+        if (response.ok) {
+            const resultData = await response.json();
+            setQuizResult({
+                ...resultData,
+                correctAnswers: correct,
+                incorrectAnswers: incorrect,
+            });
+            setQuizCompleted(true);
+        } else {
+            console.error("Failed to submit quiz results");
+        }
+    } catch (error) {
+        console.error("Error submitting quiz results:", error);
+    }
+};
   const skillLevels = ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"];
 
   return (
