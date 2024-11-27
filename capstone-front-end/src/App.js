@@ -13,6 +13,7 @@ import TheoryFullView from './components/TheoryFullView';
 import QuizPage from './components/QuizPage';
 import MyNavbar from './components/MyNavbar';
 import Technologies from './components/Technologies.jsx';
+import MyQuizzes from './components/MyQuizzes.jsx';
 
 const Layout = ({ children }) => (
   <>
@@ -35,6 +36,7 @@ function App() {
         <Route path="/theory/:languageName" element={<Layout><TheoryFullView /></Layout>} />
         <Route path="/quiz" element={<Layout> <QuizPage /></Layout>} />
         <Route path= "/technologies" element ={<Layout><Technologies/></Layout>} />
+        <Route path="/quiz-history" element ={<Layout><MyQuizzes/></Layout>} />
       </Routes>
     </BrowserRouter>
   );

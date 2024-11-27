@@ -84,6 +84,13 @@ const MyNavbar = () => {
                 >
                   View Profile
                 </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/quiz-history"
+                  className="custom-dropdown-item"
+                >
+                  My Quizzes
+                </NavDropdown.Item>
                 <NavDropdown.Divider className="custom-dropdown-divider" />
                 <NavDropdown.Item
                   onClick={handleLogout}
