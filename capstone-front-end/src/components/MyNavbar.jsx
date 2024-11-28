@@ -66,6 +66,8 @@ const MyNavbar = () => {
               Quiz
             </Nav.Link>
             <Nav.Link
+              as={Link}
+              to="/ranking"
               className="nav-item text-white fs-5"
               onClick={() => setExpanded(false)}
             >
