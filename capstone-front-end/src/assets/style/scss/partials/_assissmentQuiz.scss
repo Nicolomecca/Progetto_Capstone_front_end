@@ -24,21 +24,21 @@
     }
 }
 .progress {
-    background-color: rgba($new-primary, 0.2);
-    height: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba($new-primary, 0.5);
-  
-    .progress-bar {
-      background: linear-gradient(90deg, $new-primary, #00ff00);
-      color: white;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: width 0.5s ease;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-      box-shadow: 0 0 15px #00ff00;
-    }
+  background-color: rgba(#00ff00, 0.2);
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(#00ff00, 0.5);
+
+  .progress-bar {
+    background: linear-gradient(90deg, #00ff00, #00cc00);
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.5s ease;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 15px #00ff00;
   }
+}

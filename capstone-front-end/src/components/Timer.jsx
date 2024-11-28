@@ -1,18 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Timer = ({ duration, onTimeout, currentQuestion }) => {
   const [key, setKey] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(duration);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     setKey(prevKey => prevKey + 1);
+    setRemainingTime(duration);
     
-    const timer = setTimeout(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    timerRef.current = setTimeout(() => {
       onTimeout();
     }, duration * 1000);
 
-    return () => clearTimeout(timer);
-  }, [currentQuestion, duration, onTimeout]);
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [currentQuestion, duration]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemainingTime(prev => Math.max(prev - 0.1, 0));
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
@@ -20,11 +39,10 @@ const Timer = ({ duration, onTimeout, currentQuestion }) => {
         key={key}
         className="timer-container"
         initial={{ width: "100%" }}
-        animate={{ width: "0%" }}
+        animate={{ width: `${(remainingTime / duration) * 100}%` }}
         transition={{ 
-          duration: duration,
-          ease: "linear",
-          repeat: 0
+          duration: 0.1,
+          ease: "linear"
         }}
       >
         <div className="timer-bar" />

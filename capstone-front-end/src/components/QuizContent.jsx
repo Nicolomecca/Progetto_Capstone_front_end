@@ -1,11 +1,9 @@
-// QuizContent.jsx
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import Timer from './Timer';
-import QuestionDisplay from './QuestionDisplay';
 
-const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
+const QuizContent = ({ quizState, setQuizState, token, onTimeout, onNextQuestion }) => {
   const handleAnswerSelect = (questionId, answerKey) => {
     setQuizState(prev => ({
       ...prev,
@@ -16,6 +14,10 @@ const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
     }));
   };
 
+  const handleNext = () => {
+    onNextQuestion();
+  };
+
   const calculateScoreDetails = () => {
     let correct = 0;
     let incorrect = 0;
@@ -23,7 +25,7 @@ const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
       const userAnswer = quizState.userAnswers[question.id];
       if (userAnswer && question.correct_answers[`${userAnswer}_correct`] === "true") {
         correct++;
-      } else if (userAnswer) {
+      } else {
         incorrect++;
       }
     });
@@ -36,23 +38,12 @@ const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
 
   const handleSubmitQuiz = async () => {
     const { correct, incorrect, score } = calculateScoreDetails();
-    let mappedDifficulty;
-
-    switch (quizState.selectedDifficulty) {
-      case "BEGINNER":
-        mappedDifficulty = "EASY";
-        break;
-      case "INTERMEDIATE":
-        mappedDifficulty = "MEDIUM";
-        break;
-      case "ADVANCED":
-      case "EXPERT":
-        mappedDifficulty = "HARD";
-        break;
-      default:
-        console.error("Invalid difficulty level");
-        return;
-    }
+    const mappedDifficulty = {
+      "BEGINNER": "EASY",
+      "INTERMEDIATE": "MEDIUM",
+      "ADVANCED": "HARD",
+      "EXPERT": "HARD"
+    }[quizState.selectedDifficulty];
 
     try {
       const response = await fetch("http://localhost:3001/quiz/result", {
@@ -68,7 +59,7 @@ const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
           questions: quizState.questions.map(question => ({
             questionText: question.question,
             answers: question.answers,
-            userAnswer: quizState.userAnswers[question.id],
+            userAnswer: quizState.userAnswers[question.id] || "not_answered",
             correctAnswer: Object.keys(question.correct_answers)
               .find(key => question.correct_answers[key] === "true")
               ?.replace("_correct", "")
@@ -92,6 +83,7 @@ const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
       console.error("Error submitting quiz:", error);
     }
   };
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Card className="quiz-card glass-effect">
@@ -99,7 +91,7 @@ const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
           <Timer 
             duration={40}
             currentQuestion={quizState.currentIndex}
-            onTimeout={onTimeout}
+            onTimeout={onNextQuestion}
           />
           <div className="question-container">
             <h4 className="text-white mb-4">
@@ -123,29 +115,10 @@ const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
                   )
               )}
             </div>
-            <motion.div className="mt-4 d-flex justify-content-between">
+            <motion.div className="mt-4 d-flex justify-content-end">
               <motion.button 
                 className="quiz-nav-button"
-                onClick={() => setQuizState(prev => ({
-                  ...prev,
-                  currentIndex: Math.max(0, prev.currentIndex - 1)
-                }))}
-                disabled={quizState.currentIndex === 0}
-              >
-                Previous
-              </motion.button>
-              <motion.button 
-                className="quiz-nav-button"
-                onClick={() => {
-                  if (quizState.currentIndex < quizState.questions.length - 1) {
-                    setQuizState(prev => ({
-                      ...prev,
-                      currentIndex: prev.currentIndex + 1
-                    }));
-                  } else {
-                    handleSubmitQuiz();
-                  }
-                }}
+                onClick={handleNext}
               >
                 {quizState.currentIndex < quizState.questions.length - 1 ? "Next" : "Submit Quiz"}
               </motion.button>
@@ -156,4 +129,5 @@ const QuizContent = ({ quizState, setQuizState, token, onTimeout }) => {
     </motion.div>
   );
 };
-export default QuizContent
+
+export default QuizContent;

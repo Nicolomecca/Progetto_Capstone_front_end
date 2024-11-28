@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Container, Row, Col, Card, Collapse, Spinner } from "react-bootstrap";
-import { motion } from "framer-motion"; // Aggiungiamo animazioni fluide
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Collapse,
+  Spinner,
+  Button,
+} from "react-bootstrap";
+import { motion } from "framer-motion";
 
 const MyQuizzes = () => {
   const [quizHistory, setQuizHistory] = useState({});
@@ -10,15 +18,20 @@ const MyQuizzes = () => {
   const token = useSelector((state) => state.token.token);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const quizzesPerPage = 3;
 
   useEffect(() => {
     const fetchQuizHistory = async () => {
       try {
-        const response = await fetch("http://localhost:3001/user/quiz-history", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "http://localhost:3001/user/quiz-history",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -40,11 +53,20 @@ const MyQuizzes = () => {
 
   const handleCardClick = (language) => {
     setExpandedCard(expandedCard === language ? null : language);
-    setExpandedQuiz(null); // Reset expanded quiz when changing language
+    setExpandedQuiz(null);
+    setCurrentPage(1);
   };
 
   const handleQuizClick = (quizIndex) => {
     setExpandedQuiz(expandedQuiz === quizIndex ? null : quizIndex);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
   };
 
   if (isLoading)
@@ -56,9 +78,9 @@ const MyQuizzes = () => {
   if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
-    <div className="quiz-container d-flex align-items-center">
+    <div className="quiz-container">
       <Container fluid className="my-5">
-        <motion.h2 
+        <motion.h2
           className="text-center mb-5 text-white"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,13 +92,20 @@ const MyQuizzes = () => {
 
         <Row className="justify-content-center g-4">
           {Object.entries(quizHistory).map(([language, quizzes]) => (
-            <Col key={language} xs={12} md={expandedCard === language ? 12 : 6} lg={expandedCard === language ? 12 : 4}>
+            <Col
+              key={language}
+              xs={12}
+              md={expandedCard === language ? 12 : 6}
+              lg={expandedCard === language ? 12 : 4}
+            >
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <Card 
-                  className={`quiz-card h-100 ${expandedCard === language ? 'expanded' : ''}`}
+                <Card
+                  className={`quiz-card h-100 ${
+                    expandedCard === language ? "expanded" : ""
+                  }`}
                   onClick={() => handleCardClick(language)}
                 >
                   <Card.Body className="d-flex flex-column align-items-center p-4">
@@ -90,67 +119,130 @@ const MyQuizzes = () => {
                     <Collapse in={expandedCard === language}>
                       <div className="w-100 mt-4">
                         <Row className="g-4">
-                          {quizzes.map((quiz, index) => (
-                            <Col key={index} xs={12} md={6} lg={4}>
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.3, delay: index * 0.1 }}
-                              >
-                                <Card 
-                                  className="quiz-detail-card h-100"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleQuizClick(index);
+                          {quizzes
+                            .slice(
+                              (currentPage - 1) * quizzesPerPage,
+                              currentPage * quizzesPerPage
+                            )
+                            .map((quiz, index) => (
+                              <Col key={index} xs={12} md={6} lg={4}>
+                                <motion.div
+                                  initial={{ opacity: 0, scale: 0.9 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{
+                                    duration: 0.3,
+                                    delay: index * 0.1,
                                   }}
                                 >
-                                  <Card.Body className="p-3">
-                                    <div className="d-flex justify-content-between align-items-center">
-                                      <h5 className="text-white mb-0">Quiz {index + 1}</h5>
-                                      <span className={`badge ${quiz.score >= 70 ? 'bg-success' : 'bg-danger'}`}>
-                                        {quiz.score}%
-                                      </span>
-                                    </div>
-                                    <hr className="my-2" />
-                                    <p className="text-white mb-1">
-                                      <small>Difficulty: {quiz.difficulty}</small>
-                                    </p>
-                                    <p className="text-white mb-1">
-                                      <small>Date: {new Date(quiz.date).toLocaleDateString()}</small>
-                                    </p>
-
-                                    <Collapse in={expandedQuiz === index}>
-                                      <div className="mt-3">
-                                        {quiz.questionText && quiz.questionText.map((question, qIndex) => (
-                                          <div key={qIndex} className="question-box mb-3 p-3 border rounded">
-                                            <p className="question-text text-white">
-                                              <strong>Q{qIndex + 1}:</strong> {question.questionText}
-                                            </p>
-                                            <div className="answers-container ms-3">
-                                              <p className={`mb-1 ${
-                                                question.userAnswer === question.correctAnswer.replace("_correct", "")
-                                                  ? "text-success"
-                                                  : "text-danger"
-                                              }`}>
-                                                <small>
-                                                  Your answer: {question.answers[question.userAnswer]}
-                                                </small>
-                                              </p>
-                                              <p className="text-success mb-1">
-                                                <small>
-                                                  Correct: {question.answers[question.correctAnswer.replace("_correct", "")]}
-                                                </small>
-                                              </p>
-                                            </div>
-                                          </div>
-                                        ))}
+                                  <Card
+                                    className="quiz-detail-card h-100"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleQuizClick(
+                                        index +
+                                          (currentPage - 1) * quizzesPerPage
+                                      );
+                                    }}
+                                  >
+                                    <Card.Body className="p-3">
+                                      <div className="d-flex justify-content-between align-items-center">
+                                        <h5 className="text-white mb-0">
+                                          Quiz{" "}
+                                          {index +
+                                            1 +
+                                            (currentPage - 1) * quizzesPerPage}
+                                        </h5>
+                                        <span
+                                          className={`badge ${
+                                            quiz.score >= 70
+                                              ? "bg-success"
+                                              : "bg-danger"
+                                          }`}
+                                        >
+                                          {quiz.score}%
+                                        </span>
                                       </div>
-                                    </Collapse>
-                                  </Card.Body>
-                                </Card>
-                              </motion.div>
-                            </Col>
-                          ))}
+                                      <hr className="my-2" />
+                                      <p className="text-white mb-1">
+                                        <small>
+                                          Difficulty: {quiz.difficulty}
+                                        </small>
+                                      </p>
+                                      <p className="text-white mb-1">
+                                        <small>
+                                          Date:{" "}
+                                          {new Date(
+                                            quiz.date
+                                          ).toLocaleDateString()}
+                                        </small>
+                                      </p>
+
+                                      <Collapse
+                                        in={
+                                          expandedQuiz ===
+                                          index +
+                                            (currentPage - 1) * quizzesPerPage
+                                        }
+                                      >
+                                        <div className="mt-3">
+                                          {quiz.questionText &&
+                                            quiz.questionText.map(
+                                              (question, qIndex) => (
+                                                <div
+                                                  key={qIndex}
+                                                  className="question-box mb-3 p-3 border rounded"
+                                                >
+                                                  <p className="question-text text-white">
+                                                    <strong>
+                                                      Q{qIndex + 1}:
+                                                    </strong>{" "}
+                                                    {question.questionText}
+                                                  </p>
+                                                  <div className="answers-container ms-3">
+                                                    <p
+                                                      className={`mb-1 ${
+                                                        question.userAnswer ===
+                                                        question.correctAnswer.replace(
+                                                          "_correct",
+                                                          ""
+                                                        )
+                                                          ? "text-success"
+                                                          : "text-danger"
+                                                      }`}
+                                                    >
+                                                      <small>
+                                                        Your answer:{" "}
+                                                        {
+                                                          question.answers[
+                                                            question.userAnswer
+                                                          ]
+                                                        }
+                                                      </small>
+                                                    </p>
+                                                    <p className="text-success mb-1">
+                                                      <small>
+                                                        Correct:{" "}
+                                                        {
+                                                          question.answers[
+                                                            question.correctAnswer.replace(
+                                                              "_correct",
+                                                              ""
+                                                            )
+                                                          ]
+                                                        }
+                                                      </small>
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                              )
+                                            )}
+                                        </div>
+                                      </Collapse>
+                                    </Card.Body>
+                                  </Card>
+                                </motion.div>
+                              </Col>
+                            ))}
                         </Row>
                       </div>
                     </Collapse>
@@ -160,6 +252,32 @@ const MyQuizzes = () => {
             </Col>
           ))}
         </Row>
+        {expandedCard && (
+          <div className="d-flex justify-content-center align-items-center mt-4">
+            <Button
+              variant="outline-light"
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+              className="me-2"
+            >
+              Previous
+            </Button>
+            <span className="text-white mx-2">
+              {currentPage} of{" "}
+              {Math.ceil(quizHistory[expandedCard].length / quizzesPerPage)}
+            </span>
+            <Button
+              variant="outline-light"
+              onClick={handleNextPage}
+              disabled={
+                currentPage * quizzesPerPage >= quizHistory[expandedCard].length
+              }
+              className="ms-2"
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </Container>
     </div>
   );

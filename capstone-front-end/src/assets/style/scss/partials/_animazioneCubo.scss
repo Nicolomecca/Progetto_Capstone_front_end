@@ -93,3 +93,71 @@
       transform: translateZ(100px);
     }
   }
+
+  .theory-card .card-header {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .theory-card .card-header:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+
+
+
+  .language-card {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .explore-link {
+    text-decoration: none;
+  }
+  
+  .explore-button {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #9c27b0, #3f51b5);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+  }
+  
+  .explore-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  
+  .explore-main {
+    color: white;
+  }
+  
+  .explore-accent {
+    font-style: italic;
+    color: transparent;
+    background: linear-gradient(90deg, #ff9800, #ffeb3b);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  
+  .title-main, .title-accent {
+    font-size: clamp(2rem, 6vw, 4rem);
+    letter-spacing: -1px;
+  }
+  
+  .title-main {
+    font-weight: 700;
+    color: white;
+  }
+  
+  .title-accent {
+    font-weight: 500;
+    font-style: italic;
+    background: linear-gradient(90deg, #9c27b0, #3f51b5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
