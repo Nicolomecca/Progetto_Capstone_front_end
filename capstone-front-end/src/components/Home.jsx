@@ -13,7 +13,7 @@ const Home = () => {
                 <span className="home-title-word home-green-text"> Code</span>
               </h1>
               <p className="home-purple-text fs-2 mt-5 home-subtitle-animation">
-                Learn How. Learn Code.
+                Learn How. Learn always
               </p>
             </div>
           </div>

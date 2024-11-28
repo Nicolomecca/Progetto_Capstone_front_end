@@ -12,7 +12,7 @@ const MyNavbar = () => {
 
   const handleLogout = () => {
     dispatch(removeTokenAction());
-    navigate("/login");
+    navigate("/welcome");
   };
 
   return (
