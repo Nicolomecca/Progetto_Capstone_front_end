@@ -248,4 +248,10 @@
     height: 4rem;
     color: #00ff00 !important;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   
+  body {
+    overflow-x: hidden;
+  }

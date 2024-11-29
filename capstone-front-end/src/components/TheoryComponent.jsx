@@ -30,6 +30,7 @@ const TheoryComponent = ({ programmingLanguage }) => {
             <Card.Header 
               className="text-white cursor-pointer"
               onClick={() => setExpandedSection(expandedSection === index ? null : index)}
+              style={{ color: 'white' }}
             >
               {section.section}
             </Card.Header>
@@ -42,12 +43,12 @@ const TheoryComponent = ({ programmingLanguage }) => {
               <Card.Body>
                 {section.topics.map((topic, topicIndex) => (
                   <div key={topicIndex}>
-                    <h4 className="text-white">{topic.title}</h4>
-                    <p className="text-white">{topic.content}</p>
+                    <h4 style={{ color: 'white' }}>{topic.title}</h4>
+                    <p style={{ color: 'white' }}>{topic.content}</p>
                     {topic.examples && topic.examples.map((example, exampleIndex) => (
                       <div key={exampleIndex}>
-                        <pre>{example.code}</pre>
-                        <p>{example.explanation}</p>
+                        <pre style={{ color: 'white' }}>{example.code}</pre>
+                        <p style={{ color: 'white' }}>{example.explanation}</p>
                       </div>
                     ))}
                   </div>

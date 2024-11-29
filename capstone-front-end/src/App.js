@@ -16,9 +16,11 @@ import Technologies from './components/Technologies.jsx';
 import MyQuizzes from './components/MyQuizzes.jsx';
 import Ranking from './components/Ranking.jsx';
 import UserProfile from './components/UserProfile.jsx';
+import Footer from './components/Footer.jsx';
 
 const Layout = ({ children }) => (
   <>
+   
     <MyNavbar />
     {children}
   </>
