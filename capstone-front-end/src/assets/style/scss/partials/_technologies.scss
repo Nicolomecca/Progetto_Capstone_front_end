@@ -1,0 +1,24 @@
+.technologies-container {
+    background-color: #000;
+  }
+  
+  .full-width-image-container {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+  
+  .bg-gradient-fullscreen-overlay-black {
+    background-image: linear-gradient(to bottom, 
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0) 20%,
+      rgba(0,0,0,0) 80%,
+      rgba(0,0,0,1) 100%
+    );
+  }
+  
+  .text-purple {
+    color: #7055FF;
+  }
