@@ -15,6 +15,7 @@ import MyNavbar from './components/MyNavbar';
 import Technologies from './components/Technologies.jsx';
 import MyQuizzes from './components/MyQuizzes.jsx';
 import Ranking from './components/Ranking.jsx';
+import UserProfile from './components/UserProfile.jsx';
 
 const Layout = ({ children }) => (
   <>
@@ -39,6 +40,8 @@ function App() {
         <Route path= "/technologies" element ={<Layout><Technologies/></Layout>} />
         <Route path="/quiz-history" element ={<Layout><MyQuizzes/></Layout>} />
         <Route path="/ranking" element ={<Layout><Ranking/></Layout>} />
+        <Route path="/profile" element ={<Layout><UserProfile/></Layout>} />
+
 
       </Routes>
     </BrowserRouter>

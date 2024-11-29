@@ -86,6 +86,7 @@ const MyNavbar = () => {
                 >
                   View Profile
                 </NavDropdown.Item>
+
                 <NavDropdown.Item
                   as={Link}
                   to="/quiz-history"

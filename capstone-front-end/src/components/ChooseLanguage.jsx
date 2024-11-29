@@ -1,92 +1,83 @@
-import React, { useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { Container, Row, Col, Card } from "react-bootstrap"
-import { fetchLanguages } from "../actions/languageActions"
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Card } from "react-bootstrap";
+import { motion } from 'framer-motion';
 
-const ChooseLanguage = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const token = useSelector(state => state.token.token)
-    const { languages, isLoading, error } = useSelector(state => state.languages)
+const UserProfile = () => {
+    const navigate = useNavigate();
+    const token = useSelector(state => state.token.token);
+    const [profileData, setProfileData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!token) {
-            navigate("/login")
-        } else if (!languages.length) {
-            dispatch(fetchLanguages())
-        }
-    }, [token, navigate, languages, dispatch])
-
-    const handleLanguageSelect = async (languageName) => {
-        try {
-            const response = await fetch(`http://localhost:3001/assessment/${languageName}`, {
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            });
-
-            if (response.ok) {
-                const questions = await response.json();
-                console.log("Quiz data:", questions);
-                navigate('/assessment', { 
-                    state: { 
-                        questions,
-                        languageName 
-                    }
-                });
-            } else {
-                throw new Error("Error loading assessment questions");
+        const fetchUserProfile = async () => {
+            if (!token) {
+                navigate("/login");
+                return;
             }
-        } catch (error) {
-            console.error("Error:", error);
-            alert(error.message);
-        }
+
+            try {
+                const response = await fetch('http://localhost:3001/user/profile', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setProfileData(data);
+                } else {
+                    throw new Error("Failed to fetch user profile");
+                }
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchUserProfile();
+    }, [token, navigate]);
+
+    const cardVariants = {
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
     };
 
-    if (isLoading) return <div>Loading...</div>
-    if (error) return <div>Error: {error}</div>
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+    if (!profileData) return null;
 
     return (
         <div className="d-flex align-items-center" style={{ minHeight: "80vh" }}>
             <Container className="my-5">
-                <h2 className="text-center mb-5">
-                    <span className="title-main">Choose Your Programming</span>
-                    <span className="title-accent"> Language</span>
-                </h2>
-                {languages && languages.length > 0 && (
-                    <Row className="justify-content-center g-4 mt-3">
-                        {languages.map((language) => (
-                            <Col key={language.programmingLanguageId} xs={12} md={6} lg={4}>
-                                <Card 
-                                    className="auth-card h-100 scaleHover"
-                                    onClick={() => handleLanguageSelect(language.name)}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <Card.Body className="d-flex flex-column align-items-center p-4">
-                                        <div className="language-icon mb-3">
-                                            <img 
-                                                src={language.icon}
-                                                alt={language.name} 
-                                                className="img-fluid"
-                                                style={{ width: "64px", height: "64px" }}
-                                            />
-                                        </div>
-                                        <Card.Title className="gradient-text mb-3">
-                                            {language.name}
-                                        </Card.Title>
-                                        <Card.Text className="text-white text-center underTitle">
-                                            {language.category}
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                )}
+                <motion.div variants={cardVariants} initial="hidden" animate="visible">
+                    <Card className="mb-4 profile-card glass-effect">
+                        <Card.Body>
+                            <Card.Title>{profileData.name} {profileData.surname}</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">{profileData.userName}</Card.Subtitle>
+                            <Card.Text>Email: {profileData.email}</Card.Text>
+                            <Card.Text>Total Score: {profileData.totalScore}</Card.Text>
+                            
+                            <h5>Language Progress</h5>
+                            <Row>
+                                {Object.entries(profileData.languageProgresses).map(([language, level]) => (
+                                    <Col key={language} xs={12} md={6} lg={4}>
+                                        <Card className="mb-2">
+                                            <Card.Body>
+                                                <Card.Title>{language}</Card.Title>
+                                                <Card.Text>Level: {level}</Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                ))}
+                            </Row>
+                        </Card.Body>
+                    </Card>
+                </motion.div>
             </Container>
         </div>
-    )
-}
+    );
+};
 
-export default ChooseLanguage
+export default UserProfile;
