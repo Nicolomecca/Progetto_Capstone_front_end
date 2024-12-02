@@ -11,6 +11,8 @@ const FormSignUp = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [showModal, setShowModal] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const handleCloseModal = () => setShowModal(false);
@@ -37,6 +39,7 @@ const FormSignUp = () => {
                 body: JSON.stringify(userData),
             });
             if (response.ok) {
+                setIsSuccess(true);
                 handleShowModal();
                 setTimeout(() => {
                     handleCloseModal();
@@ -44,11 +47,15 @@ const FormSignUp = () => {
                 }, 3000);
             } else {
                 const error = await response.json();
-                alert(error.message);
+                setIsSuccess(false);
+                setErrorMessage(error.message);
+                handleShowModal();
             }
         } catch (error) {
             console.log("Error:", error);
-            alert("An error occurred. Please try again later.");
+            setIsSuccess(false);
+            setErrorMessage("An error occurred. Please try again later.");
+            handleShowModal();
         }
     };
 
@@ -147,14 +154,24 @@ const FormSignUp = () => {
 
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Body className="text-center p-5">
-                    <div className="success-animation">
-                        <div className="checkmark-circle">
-                            <div className="checkmark draw"></div>
-                        </div>
-                    </div>
-                    <h3 className="mt-4 mb-3 home-green-text">Registration Successful!</h3>
-                    <p className="home-purple-text">Welcome aboard, {userName}!</p>
-                    <p className="home-purple-text">Redirecting you to login...</p>
+                    {isSuccess ? (
+                        <>
+                            <div className="success-animation">
+                                <div className="checkmark-circle">
+                                    <div className="checkmark draw"></div>
+                                </div>
+                            </div>
+                            <h3 className="mt-4 mb-3 home-green-text">Registration Successful!</h3>
+                            <p className="home-purple-text">Welcome aboard, {userName}!</p>
+                            <p className="home-purple-text">Redirecting you to login...</p>
+                        </>
+                    ) : (
+                        <>
+                            <h3 className="mt-4 mb-3 text-danger">Registration Failed</h3>
+                            <p className="text-dark">{errorMessage}</p>
+                            <Button variant="primary" onClick={handleCloseModal}>Close</Button>
+                        </>
+                    )}
                 </Modal.Body>
             </Modal>
         </div>

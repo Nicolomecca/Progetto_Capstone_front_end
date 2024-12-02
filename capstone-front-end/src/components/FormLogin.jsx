@@ -9,6 +9,8 @@ const FormLogin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
+    const [loginSuccess, setLoginSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -54,6 +56,7 @@ const FormLogin = () => {
                 
                 const assessmentCompleted = await checkAssessmentCompletion(data.token);
                 
+                setLoginSuccess(true);
                 handleShowModal();
 
                 setTimeout(() => {
@@ -66,11 +69,15 @@ const FormLogin = () => {
                 }, 3000);
             } else {
                 const error = await response.json();
-                alert(error.message);
+                setLoginSuccess(false);
+                setErrorMessage(error.message);
+                handleShowModal();
             }
         } catch (error) {
             console.log("Error:", error);
-            alert("An error occurred. Please try again later.");
+            setLoginSuccess(false);
+            setErrorMessage("An error occurred. Please try again later.");
+            handleShowModal();
         }
     };
 
@@ -121,14 +128,25 @@ const FormLogin = () => {
 
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Body className="text-center p-5">
-                    <div className="success-animation">
-                        <div className="checkmark-circle">
-                            <div className="checkmark draw"></div>
+                    {loginSuccess && (
+                        <div className="success-animation">
+                            <div className="checkmark-circle">
+                                <div className="checkmark draw"></div>
+                            </div>
                         </div>
-                    </div>
-                    <h3 className="mt-4 mb-3 home-green-text">Login Successful!</h3>
-                    <p className="home-purple-text">Welcome back, {username}!</p>
-                    <p className="home-purple-text">Redirecting you to your dashboard...</p>
+                    )}
+                    {loginSuccess ? (
+                        <>
+                            <h3 className="mt-4 mb-3 home-green-text">Login Successful!</h3>
+                            <p className="home-purple-text">Welcome back, {username}!</p>
+                            <p className="home-purple-text">Redirecting you to your dashboard...</p>
+                        </>
+                    ) : (
+                        <>
+                            <h3 className="mt-4 mb-3 text-danger">Login Failed</h3>
+                            <p className="text-dark">{errorMessage}</p>
+                        </>
+                    )}
                 </Modal.Body>
             </Modal>
         </div>
