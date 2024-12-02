@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { Container, Card, Form, Button, Row, Col } from "react-bootstrap";
+import { Container, Card, Form, Button, Row, Col, Modal } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 
 const FormSignUp = () => {
@@ -10,7 +10,11 @@ const FormSignUp = () => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,8 +37,11 @@ const FormSignUp = () => {
                 body: JSON.stringify(userData),
             });
             if (response.ok) {
-                alert("Registration successful! Please login to continue.");
-                navigate("/login");
+                handleShowModal();
+                setTimeout(() => {
+                    handleCloseModal();
+                    navigate("/login");
+                }, 3000);
             } else {
                 const error = await response.json();
                 alert(error.message);
@@ -137,6 +144,19 @@ const FormSignUp = () => {
                     </Col>
                 </Row>
             </Container>
+
+            <Modal show={showModal} onHide={handleCloseModal} centered>
+                <Modal.Body className="text-center p-5">
+                    <div className="success-animation">
+                        <div className="checkmark-circle">
+                            <div className="checkmark draw"></div>
+                        </div>
+                    </div>
+                    <h3 className="mt-4 mb-3 home-green-text">Registration Successful!</h3>
+                    <p className="home-purple-text">Welcome aboard, {userName}!</p>
+                    <p className="home-purple-text">Redirecting you to login...</p>
+                </Modal.Body>
+            </Modal>
         </div>
     );
 };

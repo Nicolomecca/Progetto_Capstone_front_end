@@ -1,4 +1,4 @@
-import { Button, Container, Card, Form, Row, Col } from "react-bootstrap";
+import { Button, Container, Card, Form, Row, Col, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setTokenAction } from '../actions';
@@ -8,27 +8,31 @@ import { useNavigate } from 'react-router-dom';
 const FormLogin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [showModal, setShowModal] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-const checkAssessmentCompletion = async (token) => {
-    try {
-        const response = await fetch("http://localhost:3001/user/levels", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
+
+    const checkAssessmentCompletion = async (token) => {
+        try {
+            const response = await fetch("http://localhost:3001/user/levels", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const levels = await response.json();
+                return Object.keys(levels).length > 0;
             }
-        });
-        if (response.ok) {
-            const levels = await response.json();
-            return Object.keys(levels).length > 0;
+            return false;
+        } catch (error) {
+            console.error("Error checking assessment completion:", error);
+            return false;
         }
-        return false;
-    } catch (error) {
-        console.error("Error checking assessment completion:", error);
-        return false;
-    }
-};
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,13 +54,16 @@ const checkAssessmentCompletion = async (token) => {
                 
                 const assessmentCompleted = await checkAssessmentCompletion(data.token);
                 
-                if (assessmentCompleted) {
-                    navigate("/home");
-                } else {
-                    navigate("/language");
-                }
-                
-                alert("Login successful! Welcome back.");
+                handleShowModal();
+
+                setTimeout(() => {
+                    handleCloseModal();
+                    if (assessmentCompleted) {
+                        navigate("/home");
+                    } else {
+                        navigate("/language");
+                    }
+                }, 3000);
             } else {
                 const error = await response.json();
                 alert(error.message);
@@ -111,6 +118,19 @@ const checkAssessmentCompletion = async (token) => {
                     </Col>
                 </Row>
             </Container>
+
+            <Modal show={showModal} onHide={handleCloseModal} centered>
+                <Modal.Body className="text-center p-5">
+                    <div className="success-animation">
+                        <div className="checkmark-circle">
+                            <div className="checkmark draw"></div>
+                        </div>
+                    </div>
+                    <h3 className="mt-4 mb-3 home-green-text">Login Successful!</h3>
+                    <p className="home-purple-text">Welcome back, {username}!</p>
+                    <p className="home-purple-text">Redirecting you to your dashboard...</p>
+                </Modal.Body>
+            </Modal>
         </div>
     );
 };
