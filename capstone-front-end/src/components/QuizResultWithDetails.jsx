@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, ProgressBar, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useSelector } from "react-redux";
 
 const QuizResultWithDetails = ({
   result,
@@ -12,6 +13,61 @@ const QuizResultWithDetails = ({
   userAnswers,
 }) => {
   const navigate = useNavigate();
+  const [explanations, setExplanations] = useState({});
+  const [loading, setLoading] = useState({});
+  const [visibleExplanations, setVisibleExplanations] = useState({});
+  const token = useSelector((state) => state.token.token);
+
+  const getExplanation = async (questionId, userAnswer, correctAnswer) => {
+    setLoading(prev => ({ ...prev, [questionId]: true }));
+    try {
+      const response = await fetch("http://localhost:3001/answer/explanation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          question: questions.find(q => q.id === questionId).question,
+          userAnswer,
+          correctAnswer
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error("Error in request");
+      }
+
+      const data = await response.json();
+      setExplanations(prev => ({
+        ...prev,
+        [questionId]: data.explanation
+      }));
+      setVisibleExplanations(prev => ({ ...prev, [questionId]: true }));
+    } catch (error) {
+      console.error("Error retrieving explanation:", error);
+      setExplanations(prev => ({
+        ...prev,
+        [questionId]: "Unable to get explanation. Please try again later."
+      }));
+    } finally {
+      setLoading(prev => ({ ...prev, [questionId]: false }));
+    }
+  };
+
+  const toggleExplanation = (questionId) => {
+    setVisibleExplanations(prev => ({
+      ...prev,
+      [questionId]: !prev[questionId]
+    }));
+  };
+
+  const CustomLoader = () => (
+    <div className="custom-loader">
+      <div className="loader-circle"></div>
+      <div className="loader-text">Processing...</div>
+    </div>
+  );
 
   return (
     <motion.div
@@ -77,13 +133,10 @@ const QuizResultWithDetails = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <h5 className="question-text text-white">
-                  {question.question}
-                </h5>
+                <h5 className="question-text text-white">{question.question}</h5>
                 {Object.entries(question.answers).map(([key, value]) => {
                   if (value === null) return null;
-                  const isCorrect =
-                    question.correct_answers[`${key}_correct`] === "true";
+                  const isCorrect = question.correct_answers[`${key}_correct`] === "true";
                   const userAnswer = userAnswers[question.id] === key;
                   return (
                     <div
@@ -98,9 +151,42 @@ const QuizResultWithDetails = ({
                     >
                       {value} {userAnswer && !isCorrect ? "(Your Answer)" : ""}
                       {isCorrect && "(Correct)"}
+                      {userAnswer && !isCorrect && (
+                        <Button
+                          variant="outline-success"
+                          size="sm"
+                          className="ms-3 "
+                          onClick={() => getExplanation(question.id, value, question.answers[Object.keys(question.correct_answers).find(k => question.correct_answers[k] === "true").replace("_correct", "")])}
+                          disabled={loading[question.id]}
+                        >
+                          {loading[question.id] ? <CustomLoader /> : "Explanation"}
+                        </Button>
+                      )}
                     </div>
                   );
                 })}
+                <AnimatePresence>
+                  {explanations[question.id] && visibleExplanations[question.id] && (
+                    <motion.div 
+                      className="mt-2 explanation-box "
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <strong>Explanation:</strong> {explanations[question.id]}
+                      <div className="auth-bot">
+                      <Button
+                        size="sm"
+                        className="ms-2 auth-links text-white"
+                        onClick={() => toggleExplanation(question.id)}
+                      >
+                        Close
+                      </Button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
           </motion.div>
