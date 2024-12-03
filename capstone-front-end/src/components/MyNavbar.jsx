@@ -25,7 +25,7 @@ const MyNavbar = () => {
       <Container>
         <Navbar.Brand as={Link} to="/home" className="brand-text">
           <span className="title-main text-white fs-4 me-2">Universal</span>
-          <span className="title-accent text-white fs-4">Code</span>
+          <span className=" fs-4 title-accent">Code</span>
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
@@ -64,6 +64,14 @@ const MyNavbar = () => {
               onClick={() => setExpanded(false)}
             >
               Quiz
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/practice"
+              className="nav-item text-white fs-5"
+              onClick={() => setExpanded(false)}
+            >
+              Practice
             </Nav.Link>
             <Nav.Link
               as={Link}

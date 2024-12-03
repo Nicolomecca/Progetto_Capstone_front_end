@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, ProgressBar, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,7 +16,23 @@ const QuizResultWithDetails = ({
   const [explanations, setExplanations] = useState({});
   const [loading, setLoading] = useState({});
   const [visibleExplanations, setVisibleExplanations] = useState({});
+  const [renderingText, setRenderingText] = useState({});
   const token = useSelector((state) => state.token.token);
+
+  const renderLetterByLetter = (questionId, text) => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index <= text.length) {
+        setRenderingText(prev => ({
+          ...prev,
+          [questionId]: text.slice(0, index)
+        }));
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 50);
+  };
 
   const getExplanation = async (questionId, userAnswer, correctAnswer) => {
     setLoading(prev => ({ ...prev, [questionId]: true }));
@@ -39,17 +55,18 @@ const QuizResultWithDetails = ({
       }
 
       const data = await response.json();
-      setExplanations(prev => ({
-        ...prev,
-        [questionId]: data.explanation
-      }));
+      let limitedExplanation = data.explanation.split('.')[0] + '.';
+      setExplanations(prev => ({ ...prev, [questionId]: limitedExplanation }));
       setVisibleExplanations(prev => ({ ...prev, [questionId]: true }));
+      renderLetterByLetter(questionId, limitedExplanation);
     } catch (error) {
       console.error("Error retrieving explanation:", error);
+      const errorMessage = "Unable to get explanation. Please try again later.";
       setExplanations(prev => ({
         ...prev,
-        [questionId]: "Unable to get explanation. Please try again later."
+        [questionId]: errorMessage
       }));
+      renderLetterByLetter(questionId, errorMessage);
     } finally {
       setLoading(prev => ({ ...prev, [questionId]: false }));
     }
@@ -174,7 +191,7 @@ const QuizResultWithDetails = ({
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <strong>Explanation:</strong> {explanations[question.id]}
+                      <strong>Explanation:</strong> {renderingText[question.id] || ''}
                       <div className="auth-bot">
                       <Button
                         size="sm"

@@ -3,12 +3,14 @@ import { useSelector } from "react-redux";
 import { Container, Row, Col, Card, Collapse, Spinner, Button } from "react-bootstrap";
 import { motion } from "framer-motion";
 
+
 const MyQuizzes = () => {
   const [quizHistory, setQuizHistory] = useState({});
   const [expandedCard, setExpandedCard] = useState(null);
   const [expandedQuiz, setExpandedQuiz] = useState(null);
   const [explanations, setExplanations] = useState({});
   const [loadingExplanations, setLoadingExplanations] = useState({});
+  const [renderingText, setRenderingText] = useState({});
   const token = useSelector((state) => state.token.token);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,6 +54,18 @@ const MyQuizzes = () => {
   const handleNextPage = () => setCurrentPage((prevPage) => prevPage + 1);
   const handlePrevPage = () => setCurrentPage((prevPage) => prevPage - 1);
 
+  const renderLetterByLetter = (key, text) => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index <= text.length) {
+        setRenderingText(prev => ({ ...prev, [key]: text.slice(0, index) }));
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 50);
+  };
+
   const fetchExplanation = async (e, quizIndex, questionIndex, question, userAnswer, correctAnswer) => {
     e.stopPropagation();
     const key = `${quizIndex}-${questionIndex}`;
@@ -67,12 +81,17 @@ const MyQuizzes = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        setExplanations(prev => ({ ...prev, [key]: data.explanation }));
+        const limitedExplanation = data.explanation.split('.')[0] + '.';
+        setExplanations(prev => ({ ...prev, [key]: limitedExplanation }));
+        renderLetterByLetter(key, limitedExplanation);
       } else {
         throw new Error("Failed to fetch explanation");
       }
     } catch (error) {
       console.error("Error fetching explanation:", error);
+      const errorMessage = "Unable to get explanation. Please try again later.";
+      setExplanations(prev => ({ ...prev, [key]: errorMessage }));
+      renderLetterByLetter(key, errorMessage);
     } finally {
       setLoadingExplanations(prev => ({ ...prev, [key]: false }));
     }
@@ -133,10 +152,7 @@ const MyQuizzes = () => {
                                                 <small>Correct: {question.answers[question.correctAnswer.replace("_correct", "")]}</small>
                                               </p>
                                               {question.userAnswer !== question.correctAnswer.replace("_correct", "") && (
-                                                <Button
-                                                  size="sm"
-                                                  className="mt-2 neon-green-text "
-                                                       variant="outline-success"
+                                                <Button size="sm" className="mt-2 neon-green-text " variant="outline-success"
                                                   onClick={(e) => fetchExplanation(
                                                     e,
                                                     index + (currentPage - 1) * quizzesPerPage,
@@ -147,15 +163,12 @@ const MyQuizzes = () => {
                                                   )}
                                                   disabled={loadingExplanations[`${index + (currentPage - 1) * quizzesPerPage}-${qIndex}`]}
                                                 >
-                                                  {loadingExplanations[`${index + (currentPage - 1) * quizzesPerPage}-${qIndex}`] ? 
-                                                   <span className="loading-text neon-green-text">Loading...</span> : 
-                                                    "Get Explanation"
-                                                     }
+                                                  {loadingExplanations[`${index + (currentPage - 1) * quizzesPerPage}-${qIndex}`] ? <span className="loading-text neon-green-text">Loading...</span> : "Get Explanation"}
                                                 </Button>
                                               )}
                                               {explanations[`${index + (currentPage - 1) * quizzesPerPage}-${qIndex}`] && (
                                                 <div className="mt-2 explanation-box text-white">
-                                                  <strong>Explanation:</strong> {explanations[`${index + (currentPage - 1) * quizzesPerPage}-${qIndex}`]}
+                                                  <strong>Explanation:</strong> {renderingText[`${index + (currentPage - 1) * quizzesPerPage}-${qIndex}`] || ''}
                                                 </div>
                                               )}
                                             </div>

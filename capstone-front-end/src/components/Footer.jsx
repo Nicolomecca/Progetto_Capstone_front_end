@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-import Logo from "./Logo";
 
 const Footer = () => {
   return (
