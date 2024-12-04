@@ -111,7 +111,7 @@ const UserProfile = () => {
                                         <FaCamera /> Cambia Foto
                                     </Button>
                                     <h3 className="text-white mt-3">{profileData.name} {profileData.surname}</h3>
-                                    <h5 className="text-white-50">@{profileData.userName}</h5>
+                                    <h5 className=" neon-green-text">@{profileData.userName}</h5>
                                 </Col>
                                 <Col md={7}>
                                     <div className="d-flex align-items-center mb-3">
@@ -123,7 +123,7 @@ const UserProfile = () => {
                                         <span className="text-white">Punteggio Totale: {profileData.totalScore}</span>
                                     </div>
                                     
-                                    <h5 className="text-white mt-4"><FaCode className="me-2" />Progressi Linguaggi</h5>
+                                    <h5 className="text-white mt-4"><FaCode className="me-2 neon-green-text" />Progressi Linguaggi</h5>
                                     <Row className="mb-3">
                                         {Object.entries(profileData.languageProgresses).map(([language, level]) => (
                                             <Col key={language} xs={6} md={6} lg={4} className="mb-2 mt-3">

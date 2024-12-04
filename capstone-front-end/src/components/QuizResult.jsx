@@ -38,25 +38,25 @@ const QuizResult = ({
         <Card className="mb-4 quiz-card glass-effect">
           <Card.Body>
             <motion.div variants={itemVariants}>
-              <Card.Title className="text-center mb-4 gradient-text">
+              <Card.Title className="text-center mb-4 gradient-text fs-3">
                 Quiz Completed!
               </Card.Title>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <Card.Text className="text-center mb-2 text-white">
-                Congratulations! You can now start for real.
+              <Card.Text className="text-center mb-2 text-white fs-4">
+              <span className="title-accents me-2"> Congratulations! </span>  You can now start for real.
               </Card.Text>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <Card.Text className="text-center mb-2 text-white">
+              <Card.Text className="text-center mb-2 text-white fs-4">
                 Your Score:{" "}
                 <span className="gradient-text">{result.score}%</span>
               </Card.Text>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <Card.Text className="text-center mb-3 text-white">
+              <Card.Text className="text-center mb-3 text-white fs-4">
                 Level:{" "}
-                <span className="gradient-text">{result.skillLevel}</span>
+                <span className="neon-green-text">{result.skillLevel}</span>
               </Card.Text>
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -75,8 +75,8 @@ const QuizResult = ({
               </ProgressBar>
             </motion.div>
             <motion.div variants={itemVariants} className="text-center">
-              <span className="me-3 text-white">Correct: {correctAnswers}</span>
-              <span className="text-white">Incorrect: {incorrectAnswers}</span>
+              <span className="me-3 text-white fs-4">Correct: {correctAnswers}</span>
+              <span className="text-white fs-4">Incorrect: {incorrectAnswers}</span>
             </motion.div>
           </Card.Body>
         </Card>

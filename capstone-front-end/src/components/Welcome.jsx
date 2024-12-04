@@ -5,7 +5,7 @@ const Welcome = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="welcome-container d-flex flex-column align-items-center">
+    <div className="welcome-container d-flex flex-column align-items-center mt-5">
       <Logo />
       <div className="auth-options d-flex justify-content-center align-items-center gap-4 mt-5 pt-5">
         <button 

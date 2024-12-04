@@ -142,7 +142,7 @@ const QuizResultWithDetails = ({ result, correctAnswers, incorrectAnswers, total
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Card.Text className="text-center">
+            <Card.Text className="text-center fs-4">
               {result.score < 60 ? (
                 "Don't worry, you can always try again!"
               ) : (
