@@ -36,7 +36,6 @@ const LanguageGrid = ({ languages, userLevels, token, setQuizState }) => {
 
       if (response.ok) {
         const questions = await response.json();
-        console.log(questions)
         setQuizState({
           questions,
           selectedLanguage: languageName,

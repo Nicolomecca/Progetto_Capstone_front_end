@@ -140,6 +140,14 @@
     }
   }
   
+    .title-accents {
+      font-weight: 500;
+      font-style: italic;
+      background: linear-gradient(90deg,  #00ff00, #005613);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
   // Auth options responsive
   .auth-options {
     position: relative;

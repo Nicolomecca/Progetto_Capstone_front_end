@@ -3,7 +3,7 @@ import { Card, ProgressBar, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
-import LevelUpAnimation from './LevelUpAnimation';
+import { AcademicCapIcon, BeakerIcon, TrophyIcon } from '@heroicons/react/24/solid';
 
 const QuizResultWithDetails = ({ result, correctAnswers, incorrectAnswers, totalQuestions, questions, userAnswers }) => {
   const navigate = useNavigate();
@@ -13,7 +13,19 @@ const QuizResultWithDetails = ({ result, correctAnswers, incorrectAnswers, total
   const [renderingText, setRenderingText] = useState({});
   const token = useSelector((state) => state.token.token);
   const canvasRef = useRef(null);
-  
+
+  const getBadgeForLevel = (level) => {
+    switch (level.toLowerCase()) {
+      case 'beginner':
+        return <AcademicCapIcon className={`level-badge beginner`} />;
+      case 'intermediate':
+        return <BeakerIcon className={`level-badge intermediate`} />;
+      case 'advanced':
+        return <TrophyIcon className={`level-badge advanced`} />;
+      default:
+        return null;
+    }
+  };
 
   const renderLetterByLetter = (questionId, text) => {
     let index = 0;
@@ -104,44 +116,93 @@ const QuizResultWithDetails = ({ result, correctAnswers, incorrectAnswers, total
   }, [result.score]);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-      {result.score >= 60 && <canvas ref={canvasRef} style={{ position: 'fixed', top: 0, left: 0, zIndex: -1 }} />}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {result.score >= 60 && (
+        <canvas
+          ref={canvasRef}
+          style={{ position: 'fixed', top: 0, left: 0, zIndex: -1 }}
+        />
+      )}
       <Card text="white" className="shadow mb-4 quiz-card glass-effect">
         <Card.Body>
-          <motion.h2 className="text-center mb-4 gradient-text" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
+          <motion.h2
+            className="text-center mb-4 gradient-text"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             Quiz Completed!
           </motion.h2>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.4 }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             <Card.Text className="text-center">
               {result.score < 60 ? (
                 "Don't worry, you can always try again!"
               ) : (
-                <motion.div className="congratulations-text" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5, type: "spring", stiffness: 100 }}>
-                  Congratulations! You've unlocked the Matrix!
-                </motion.div>
+                <motion.div
+                className="congratulations-text"
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
+              >
+                <span className="title-accent">Congratulations!</span> <span className="fs-5"> You've unlocked the </span><span className="neon-green-text fs-3">Matrix!</span>
+              </motion.div>
               )}
             </Card.Text>
-            <Card.Text className="text-center">Your Score: {result.score}%</Card.Text>
-            <Card.Text className="text-center">Level: {result.skillLevel}</Card.Text>
+            <Card.Text className="text-center fs-4">Your Score: {result.score}%</Card.Text>
+            <Card.Text className="text-center d-flex align-items-center justify-content-center fs-4">
+               Level  <span className=" ms-2 neon-green-text">  {result.skillLevel}</span> {getBadgeForLevel(result.skillLevel)}
+             </Card.Text>
             <ProgressBar className="mb-3">
-              <ProgressBar now={(correctAnswers / totalQuestions) * 100} key={1} style={{ backgroundColor: "#04605A" }} />
-              <ProgressBar now={(incorrectAnswers / totalQuestions) * 100} key={2} style={{ backgroundColor: "#4CAF50", opacity: 0.5 }} />
+              <ProgressBar
+                now={(correctAnswers / totalQuestions) * 100}
+                key={1}
+                style={{ backgroundColor: "#04605A" }}
+              />
+              <ProgressBar
+                now={(incorrectAnswers / totalQuestions) * 100}
+                key={2}
+                style={{ backgroundColor: "#4CAF50", opacity: 0.5 }}
+              />
             </ProgressBar>
             <div className="text-center">
-              <span className="me-3">Correct: {correctAnswers}</span>
-              <span>Incorrect: {incorrectAnswers}</span>
+              <span className="me-3 fs-5">Correct: {correctAnswers}</span>
+              <span className="fs-5">Incorrect: {incorrectAnswers}</span>
             </div>
           </motion.div>
-          <motion.div className="mt-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.6 }}>
+          <motion.div
+            className="mt-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
             {questions.map((question, index) => (
-              <motion.div key={question.id} className="mb-3 question-box p-3 border rounded" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3, delay: index * 0.1 }}>
+              <motion.div
+                key={question.id}
+                className="mb-3 question-box p-3 border rounded"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
                 <h5 className="question-text text-white">{question.question}</h5>
                 {Object.entries(question.answers).map(([key, value]) => {
                   if (value === null) return null;
                   const isCorrect = question.correct_answers[`${key}_correct`] === "true";
                   const userAnswer = userAnswers[question.id] === key;
                   return (
-                    <div key={key} className={`answer-box ${isCorrect ? "text-success" : userAnswer ? "text-danger" : "text-white"}`}>
+                    <div
+                      key={key}
+                      className={`answer-box ${
+                        isCorrect ? "text-success" : userAnswer ? "text-danger" : "text-white"
+                      }`}
+                    >
                       {value}
                       {userAnswer && !isCorrect ? " (Your Answer)" : ""}
                       {isCorrect && " (Correct)"}
@@ -150,11 +211,17 @@ const QuizResultWithDetails = ({ result, correctAnswers, incorrectAnswers, total
                           variant="outline-success"
                           size="sm"
                           className="ms-3"
-                          onClick={() => getExplanation(
-                            question.id,
-                            value,
-                            question.answers[Object.keys(question.correct_answers).find((k) => question.correct_answers[k] === "true").replace("_correct", "")]
-                          )}
+                          onClick={() =>
+                            getExplanation(
+                              question.id,
+                              value,
+                              question.answers[
+                                Object.keys(question.correct_answers).find(
+                                  (k) => question.correct_answers[k] === "true"
+                                ).replace("_correct", "")
+                              ]
+                            )
+                          }
                           disabled={loading[question.id]}
                         >
                           {loading[question.id] ? <CustomLoader /> : "Explanation"}
@@ -190,7 +257,12 @@ const QuizResultWithDetails = ({ result, correctAnswers, incorrectAnswers, total
           </motion.div>
         </Card.Body>
       </Card>
-      <motion.div className="text-center auth-bot" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.8 }}>
+      <motion.div
+        className="text-center auth-bot"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
+      >
         <Button className="auth-links quiz-nav-button" onClick={() => navigate("/home")}>
           Go to Home
         </Button>

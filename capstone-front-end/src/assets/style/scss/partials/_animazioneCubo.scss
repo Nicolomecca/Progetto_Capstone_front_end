@@ -161,4 +161,27 @@
     background-clip: text;
     color: transparent;
   }
+
+  .level-badge {
+    width: 40px;
+    height: 40px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
   
+  .level-badge.beginner {
+    color: #4CAF50;
+  }
+  
+  .level-badge.intermediate {
+    color: #FFC107;
+  }
+  
+  .level-badge.advanced {
+    color: #F44336;
+  }
+  
+  .level-text {
+    display: inline-flex;
+    align-items: center;
+  }
