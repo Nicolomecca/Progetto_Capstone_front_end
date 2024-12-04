@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Container, Spinner } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
-import { fetchLanguages } from "../actions/languageActions";
+import { fetchLanguages } from "../../actions/languageActions";
 import QuizResultWithDetails from "./QuizResultWithDetails";
-import LanguageGrid from "./LanguageGrid";
+import LanguageGrid from "../LanguageGrid";
 import QuizContent from "./QuizContent";
 
 const QuizPage = () => {

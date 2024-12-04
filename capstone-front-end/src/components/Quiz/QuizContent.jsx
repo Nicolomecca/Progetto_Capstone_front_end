@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import Timer from './Timer';
+import Timer from '../Componenti per Stile/Timer';
 
 const QuizContent = ({ quizState, setQuizState, token, onTimeout, onNextQuestion }) => {
   const handleAnswerSelect = (questionId, answerKey) => {

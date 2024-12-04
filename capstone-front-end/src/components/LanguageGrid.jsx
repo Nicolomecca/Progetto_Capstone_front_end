@@ -3,7 +3,7 @@ import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import SkillLevelButtons from "./SkillLevelButtons";
+import SkillLevelButtons from "./Componenti per Stile/SkillLevelButtons";
 
 const LanguageGrid = ({ languages, userLevels, token, setQuizState }) => {
   const navigate = useNavigate();

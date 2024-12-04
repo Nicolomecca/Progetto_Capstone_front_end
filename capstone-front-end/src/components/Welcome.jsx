@@ -1,4 +1,4 @@
-import Logo from "../components/Logo";
+import Logo from "./Componenti per Stile/Logo";
 import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import Animazione from "./Animazione";
+import Animazione from "./Componenti per Stile/Animazione";
 import ImageReact from "../assets/imgs/Screenshot 2024-11-29 183318.png";
 import ImagePostrgreSql from "../assets/imgs/postgresql.png";
 import ImageNextJs from "../assets/imgs/1713348835101.png";

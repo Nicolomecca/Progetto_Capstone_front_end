@@ -2,21 +2,21 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/style/custom-style.scss'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import FormLogin from './components/FormLogin';
-import FormSignUp from './components/FormSignUp.jsx';
+import FormLogin from './components/Autenticazione/FormLogin.jsx';
+import FormSignUp from './components/Autenticazione/FormSignUp.jsx';
 import Welcome from './components/Welcome.jsx';
 import Home from './components/Home.jsx'
-import ChooseLanguage from './components/ChooseLanguage.jsx';
-import AssessmentQuiz from './components/AssessmentQuiz.jsx';
+import ChooseLanguage from './components/Quiz/ChooseLanguage.jsx';
+import AssessmentQuiz from './components/Quiz/AssessmentQuiz.jsx';
 import ProgrammingLanguageDetails from './components/ProgrammingLanguageDetails.jsx';
 import TheoryFullView from './components/TheoryFullView';
-import QuizPage from './components/QuizPage';
+import QuizPage from './components/Quiz/QuizPage.jsx';
 import MyNavbar from './components/MyNavbar';
-import Technologies from './components/Technologies.jsx';
-import MyQuizzes from './components/MyQuizzes.jsx';
+import MyQuizzes from './components/Quiz/MyQuizzes.jsx';
 import Ranking from './components/Ranking.jsx';
 import UserProfile from './components/UserProfile.jsx';
 import Practice from './components/Practice.jsx';
+import Technologies from './components/Technologies.jsx';
 
 const Layout = ({ children }) => (
   <>
@@ -44,10 +44,6 @@ function App() {
         <Route path="/ranking" element ={<Layout><Ranking/></Layout>} />
         <Route path="/profile" element ={<Layout><UserProfile/></Layout>} />
         <Route path="/practice" element ={<Layout><Practice/></Layout>} />
-
-        
-
-
       </Routes>
     </BrowserRouter>
   );

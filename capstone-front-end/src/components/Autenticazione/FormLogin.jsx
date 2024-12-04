@@ -1,8 +1,7 @@
 import { Button, Container, Card, Form, Row, Col, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setTokenAction } from '../actions';
-import '../assets/style/custom-style.scss';
+import { setTokenAction } from '../../actions';
 import { useNavigate } from 'react-router-dom';
 
 const FormLogin = () => {

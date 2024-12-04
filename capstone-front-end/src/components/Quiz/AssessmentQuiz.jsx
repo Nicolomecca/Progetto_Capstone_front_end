@@ -3,8 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import QuizResult from './QuizResult';
-import Timer from './Timer';
+import Timer from '../Componenti per Stile/Timer';
 
 const AssessmentQuiz = () => {
   const location = useLocation();
@@ -126,7 +125,7 @@ const AssessmentQuiz = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <Card className="quiz-card glass-effect">
                 <Card.Body>
-                  <Timer 
+                  <Timer
                     duration={40}
                     currentQuestion={currentQuestionIndex}
                     onTimeout={handleNextQuestion}
@@ -166,7 +165,7 @@ const AssessmentQuiz = () => {
               </Card>
             </motion.div>
           ) : (
-            <QuizResult 
+            <quizResult
               result={quizResult} 
               correctAnswers={correctAnswers} 
               incorrectAnswers={incorrectAnswers} 

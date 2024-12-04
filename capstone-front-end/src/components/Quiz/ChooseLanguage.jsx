@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { Container, Row, Col, Card } from "react-bootstrap"
-import { fetchLanguages } from "../actions/languageActions"
+import { fetchLanguages } from "../../actions/languageActions"
 
 const ChooseLanguage = () => {
     const dispatch = useDispatch()
