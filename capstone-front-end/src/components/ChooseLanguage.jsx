@@ -51,8 +51,8 @@ const ChooseLanguage = () => {
         <div className="d-flex align-items-center" style={{ minHeight: "80vh" }}>
             <Container className="my-5">
                 <h2 className="text-center mb-5">
-                    <span className="title-main">Choose Your Programming</span>
-                    <span className="title-accent"> Language</span>
+                    <span className="title-main">Choose Your </span>
+                    <span className="title-accent"> Technologies</span>
                 </h2>
                 {languages && languages.length > 0 && (
                     <Row className="justify-content-center g-4 mt-3">
