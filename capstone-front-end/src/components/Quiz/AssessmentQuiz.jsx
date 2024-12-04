@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import Timer from '../Componenti per Stile/Timer';
+import QuizResult from './QuizResult';
 
 const AssessmentQuiz = () => {
   const location = useLocation();
@@ -165,7 +166,7 @@ const AssessmentQuiz = () => {
               </Card>
             </motion.div>
           ) : (
-            <quizResult
+            <QuizResult
               result={quizResult} 
               correctAnswers={correctAnswers} 
               incorrectAnswers={incorrectAnswers} 
