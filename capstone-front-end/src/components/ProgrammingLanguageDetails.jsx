@@ -56,13 +56,13 @@ const ProgrammingLanguageDetails = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 50, duration: 1 }}
       >
-        <span className="title-main">Programming Languages</span>
+        <span className="tech-title-gradients tech-word-gradient">There is no future without </span>
         <motion.span 
           className="title-accent"
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-        > Theory</motion.span>
+        > knowledge</motion.span>
       </motion.h1>
       <motion.div
         variants={containerVariants}

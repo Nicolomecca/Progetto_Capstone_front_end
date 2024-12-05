@@ -11,7 +11,7 @@ const TheoryFullView = () => {
     state.languages.languages.find(lang => lang.name === languageName)
   );
 
-  if (!language) return <div>Language not found</div>;
+  if (!language) return <div> not found</div>;
 
   return (
     <Container className="my-5">

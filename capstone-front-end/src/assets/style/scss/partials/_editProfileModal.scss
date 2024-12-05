@@ -1,0 +1,31 @@
+.edit-profile-modal .modal-content {
+    background-color: #1a1a2e;
+    border: 1px solid #4a4e69;
+  }
+  
+  .edit-profile-modal .form-control {
+    background-color: #16213e;
+    border-color: #4a4e69;
+    color: #f1faee;
+  }
+  
+  .edit-profile-modal .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(74, 78, 105, 0.25);
+  }
+  
+  .edit-profile-modal .btn-custom {
+    background-color: rgba(255, 0, 255, 0.3);
+    border-color: #1d3557;
+    color: #f1faee;
+  }
+  
+  .edit-profile-modal .btn-custom:hover {
+    background-color: #457b9d;
+  }
+  .custom-close .close {
+    color: white;
+  }
+  
+  .custom-close .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+  }
