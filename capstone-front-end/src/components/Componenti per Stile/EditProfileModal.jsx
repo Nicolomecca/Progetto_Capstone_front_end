@@ -9,7 +9,7 @@ const EditProfileModal = ({ show, handleClose, profileData, handleSave }) => {
     surname: profileData.surname,
     userName: profileData.userName,
     email: profileData.email,
-    password: '' // Inizializzato come stringa vuota
+    password: '' 
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -23,7 +23,7 @@ const EditProfileModal = ({ show, handleClose, profileData, handleSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Se la password non è stata modificata, inviamo una stringa speciale
+    
     const dataToSave = {
       ...formData,
       password: formData.password || 'NO_CHANGE'
