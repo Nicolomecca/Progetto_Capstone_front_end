@@ -33,7 +33,6 @@ const FormSignUp = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(userData),
