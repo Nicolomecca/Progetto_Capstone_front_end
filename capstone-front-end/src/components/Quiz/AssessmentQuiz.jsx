@@ -28,7 +28,7 @@ const AssessmentQuiz = () => {
 
   const checkAssessmentCompletion = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/assessment/user/completed/${languageName}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/assessment/user/completed/${languageName}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
@@ -75,7 +75,7 @@ const AssessmentQuiz = () => {
   const handleSubmit = async () => {
     const score = calculateScore();
     try {
-      const response = await fetch('http://localhost:3001/assessment', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/assessment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

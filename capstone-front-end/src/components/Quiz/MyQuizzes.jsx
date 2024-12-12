@@ -20,7 +20,7 @@ const MyQuizzes = () => {
   useEffect(() => {
     const fetchQuizHistory = async () => {
       try {
-        const response = await fetch("http://localhost:3001/user/quiz-history", {
+        const response = await fetch( `${process.env.REACT_APP_API_URL}/user/quiz-history` , {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.ok) {
@@ -71,7 +71,7 @@ const MyQuizzes = () => {
     const key = `${quizIndex}-${questionIndex}`;
     setLoadingExplanations(prev => ({ ...prev, [key]: true }));
     try {
-      const response = await fetch("http://localhost:3001/answer/explanation", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/answer/explanation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

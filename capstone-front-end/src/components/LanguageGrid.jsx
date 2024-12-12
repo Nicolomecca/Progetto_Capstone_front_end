@@ -28,7 +28,7 @@ const LanguageGrid = ({ languages, userLevels, token, setQuizState }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/quiz/questions/${languageName}/${mappedDifficulty}`,
+        `${process.env.REACT_APP_API_URL}/quiz/questions/${languageName}/${mappedDifficulty}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -54,7 +54,7 @@ const LanguageGrid = ({ languages, userLevels, token, setQuizState }) => {
   const handleLanguageSelect = async (languageName) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/assessment/${languageName}`,
+        `${process.env.REACT_APP_API_URL}/assessment/${languageName}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

@@ -1,5 +1,4 @@
 // actions/languageActions.js
-
 export const SET_LANGUAGES = 'SET_LANGUAGES'
 export const FETCH_LANGUAGES_ERROR = 'FETCH_LANGUAGES_ERROR'
 export const FETCH_LANGUAGES_REQUEST = 'FETCH_LANGUAGES_REQUEST'
@@ -22,7 +21,7 @@ export const fetchLanguages = () => async (dispatch, getState) => {
     const token = getState().token.token;
     dispatch(fetchLanguagesRequestAction());
     try {
-        const response = await fetch("http://localhost:3001/languages", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/languages`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
