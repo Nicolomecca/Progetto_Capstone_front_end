@@ -5,7 +5,9 @@ import TheoryImage from "../assets/imgs/Screenshot 2024-11-29 163029.png";
 import Footer from "./Footer";
 
 const Home = () => {
+  console.log(process.env.REACT_APP_API_URL)
   return (
+  
     <div className="home-bg-black min-vh-100">
       <main className="container-fluid p-0">
         {/* Hero Section */}

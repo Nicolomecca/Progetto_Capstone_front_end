@@ -28,7 +28,7 @@ const Ranking = () => {
         return;
       }
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/ranking/${languageName}`, {
+      const response = await fetch(`http://localhost:3001/user/ranking/${languageName}`, {
         headers: {
           Authorization: "Bearer " + token,
         },

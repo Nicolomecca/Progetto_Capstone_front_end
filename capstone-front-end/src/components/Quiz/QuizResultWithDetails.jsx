@@ -42,7 +42,7 @@ const QuizResultWithDetails = ({ result, correctAnswers, incorrectAnswers, total
   const getExplanation = async (questionId, userAnswer, correctAnswer) => {
     setLoading(prev => ({ ...prev, [questionId]: true }));
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/answer/explanation`, {
+      const response = await fetch("http://localhost:3001/answer/explanation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

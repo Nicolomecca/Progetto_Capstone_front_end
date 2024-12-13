@@ -33,7 +33,7 @@ const QuizPage = () => {
   const fetchUserLevels = async () => {
     if (!token) return;
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/levels`, {
+      const response = await fetch("http://localhost:3001/user/levels", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.ok) {
@@ -72,7 +72,7 @@ const QuizPage = () => {
     }[quizState.selectedDifficulty];
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/quiz/result`, {
+      const response = await fetch("http://localhost:3001/quiz/result", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

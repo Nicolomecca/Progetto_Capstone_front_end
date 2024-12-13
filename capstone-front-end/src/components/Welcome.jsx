@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
   const navigate = useNavigate();
+  console.log(process.env.REACT_APP_API_URL)
 
   return (
     <div className="welcome-container d-flex flex-column align-items-center mt-5">

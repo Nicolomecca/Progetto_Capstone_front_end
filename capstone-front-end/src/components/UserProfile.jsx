@@ -25,7 +25,7 @@ const UserProfile = () => {
       return;
     }
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/profile`, {
+      const response = await fetch("http://localhost:3001/user/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.ok) {
@@ -47,7 +47,7 @@ const UserProfile = () => {
     const formData = new FormData();
     formData.append("picture", file);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/upload-image`, {
+      const response = await fetch("http://localhost:3001/user/upload-image", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -72,7 +72,7 @@ const UserProfile = () => {
 
   const handleSaveProfile = async (updatedData) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/upDate-profile`, {
+      const response = await fetch("http://localhost:3001/user/upDate-profile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

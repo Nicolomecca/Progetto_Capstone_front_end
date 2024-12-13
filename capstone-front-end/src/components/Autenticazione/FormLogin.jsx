@@ -18,7 +18,7 @@ const FormLogin = () => {
 
     const checkAssessmentCompletion = async (token) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/user/levels`, {
+            const response = await fetch("http://localhost:3001/user/levels", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -40,7 +40,7 @@ const FormLogin = () => {
         const userData = { username, password };
         
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+            const response = await fetch("http://localhost:3001/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

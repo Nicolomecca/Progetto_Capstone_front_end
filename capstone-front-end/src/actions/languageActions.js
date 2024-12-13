@@ -21,7 +21,7 @@ export const fetchLanguages = () => async (dispatch, getState) => {
     const token = getState().token.token;
     dispatch(fetchLanguagesRequestAction());
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/languages`, {
+        const response = await fetch("http://localhost:3001/languages", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
