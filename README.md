@@ -1,4 +1,4 @@
-🎮 Quiz Gamification Project - Frontend
+Quiz Gamification Project - Frontend
 Welcome to the frontend repository of the Quiz Gamification Project! This React-based application provides an engaging user interface for our quiz platform, focusing on language learning and gamification.
 🚀 Features
 Interactive Quiz Interface: Engaging UI for taking quizzes on various programming languages and frameworks.
@@ -26,9 +26,8 @@ json
     "redux": "^4.2.0",
     "react-redux": "^8.0.2",
     "styled-components": "^5.3.5",
-    "@codesandbox/sandpack-react": "^2.19.10",
-
- }
+    "@codesandbox/sandpack-react": "^2.19.10"
+  },
   "devDependencies": {
     "@testing-library/react": "^13.3.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -36,7 +35,6 @@ json
     "prettier": "^2.7.1"
   }
 }
-
 📋 Prerequisites
 Node.js (v14.0.0 or later)
 npm or yarn package manager
@@ -44,22 +42,25 @@ npm or yarn package manager
 Clone the repository:
 bash
 git clone https://github.com/Nicolomecca/Progetto_Capstone_front_end.git
-
 Navigate to the project directory:
 bash
 cd Progetto_Capstone_front_end
-
 Install dependencies:
 bash
 npm install
-
 Start the development server:
 bash
 npm start
-
 Open http://localhost:3000 in your browser to view the application.
-
-
+Configure and start the backend:
+Clone the backend repository: git clone https://github.com/Nicolomecca/Progetto_Capstone_back_end.git
+Follow the instructions in the backend README to set it up and run it
+With both frontend and backend running, the application will be fully functional.
+🏗️ Project Structure
+This project is divided into two main repositories:
+Frontend (This repository)
+Backend: Link to backend repository
+The frontend handles the user interface and user interaction, while the backend manages business logic, authentication, and database interactions.
 🤝 Contributing
 We welcome contributions! To contribute:
 Fork the repository
