@@ -1,4 +1,4 @@
-Quiz Gamification Project - Frontend
+🕹️ Quiz Gamification Project - Frontend
 Welcome to the frontend repository of the Quiz Gamification Project! This React-based application provides an engaging user interface for our quiz platform, focusing on language learning and gamification.
 🚀 Features
 Interactive Quiz Interface: Engaging UI for taking quizzes on various programming languages and frameworks.
@@ -59,7 +59,7 @@ With both frontend and backend running, the application will be fully functional
 🏗️ Project Structure
 This project is divided into two main repositories:
 Frontend (This repository)
-Backend: Link to backend repository
+Backend: https://github.com/Nicolomecca/Progetto_Capstone_back_end.git
 The frontend handles the user interface and user interaction, while the backend manages business logic, authentication, and database interactions.
 🤝 Contributing
 We welcome contributions! To contribute:
