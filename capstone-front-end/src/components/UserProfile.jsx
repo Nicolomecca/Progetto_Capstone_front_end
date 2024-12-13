@@ -99,37 +99,20 @@ const UserProfile = () => {
   if (error) return <div className="error-message">Errore: {error}</div>;
   if (!profileData) return null;
 
+ 
   return (
-    <div className="user-profile-container" style={{ minHeight: "100vh", background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)" }}>
+    <div className="user-profile-container">
       <Container className="py-5">
         <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <Card className="profile-card glass-effect" style={{ maxWidth: "800px", margin: "0 auto" }}>
+          <Card className="profile-card glass-effect">
             <Card.Body className="p-4">
               <Row>
                 <Col md={5} className="text-center mb-4">
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Image src={profileData.profileImage || "https://via.placeholder.com/150"} roundedCircle className="mb-3 profile-image" style={{ width: "120px", height: "120px", objectFit: "cover", border: "3px solid #4a4e69" }} />
+                    <Image src={profileData.profileImage || "https://via.placeholder.com/150"} roundedCircle className="mb-3 profile-image" />
                   </motion.div>
                   <input type="file" ref={fileInputRef} onChange={handleImageUpload} style={{ display: "none" }} accept="image/*" />
-                  <Button variant="custom" size="sm" onClick={() => fileInputRef.current.click()} className="mt-2" style={{
-                    backgroundColor: "rgba(255, 0, 255, 0.3)",
-                    borderColor: "#1d3557",
-                    color: "#f1faee",
-                    borderRadius: "12px",
-                    padding: "8px 12px",
-                    fontFamily: "Arial",
-                    fontSize: "14px",
-                    transition: "all 0.3s ease",
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = "#457b9d";
-                    e.currentTarget.style.color = "#f1faee";
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = "rgba(255, 0, 255, 0.3)";
-                    e.currentTarget.style.color = "#f1faee";
-                  }}
-                  >
+                  <Button variant="custom" size="sm" onClick={() => fileInputRef.current.click()} className="mt-2 change-photo-btn">
                     <FaCamera className="me-2" /> Cambia Foto
                   </Button>
                   <h3 className="text-white mt-3">{profileData.name} {profileData.surname}</h3>
@@ -151,7 +134,7 @@ const UserProfile = () => {
                     {Object.entries(profileData.languageProgresses).map(([language, level]) => (
                       <Col key={language} xs={6} md={6} lg={4} className="mb-2 mt-3">
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          <Card className="language-card bg-dark text-white">
+                          <Card className="language-card">
                             <Card.Body className="p-2">
                               <Card.Title className="mb-0 fs-6">{language}</Card.Title>
                               <div className="mt-1">
@@ -166,25 +149,7 @@ const UserProfile = () => {
                     ))}
                   </Row>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="custom" onClick={handleEditProfile} className="mt-3 w-100" style={{
-                      backgroundColor: "rgba(255, 0, 255, 0.3)",
-                      borderColor: "#1d3557",
-                      color: "#f1faee",
-                      borderRadius: "12px",
-                      padding: "8px 12px",
-                      fontFamily: "Arial",
-                      fontSize: "14px",
-                      transition: "all 0.3s ease",
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = "#457b9d";
-                      e.currentTarget.style.color = "#f1faee";
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = "rgba(255, 0, 255, 0.3)";
-                      e.currentTarget.style.color = "#f1faee";
-                    }}
-                    >
+                    <Button variant="custom" onClick={handleEditProfile} className="mt-3 w-100 edit-profile-btn">
                       <FaEdit className="me-2" /> Edit Your Profile
                     </Button>
                   </motion.div>
@@ -194,12 +159,7 @@ const UserProfile = () => {
           </Card>
         </motion.div>
       </Container>
-      <EditProfileModal
-        show={showEditModal}
-        handleClose={handleCloseModal}
-        profileData={profileData}
-        handleSave={handleSaveProfile}
-      />
+      <EditProfileModal show={showEditModal} handleClose={handleCloseModal} profileData={profileData} handleSave={handleSaveProfile} />
     </div>
   );
 };

@@ -1,0 +1,50 @@
+.user-profile-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+  
+  .profile-card {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .profile-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 3px solid #4a4e69;
+  }
+  
+  .change-photo-btn, .edit-profile-btn {
+    background-color: rgba(255, 0, 255, 0.3);
+    border-color: #1d3557;
+    color: #f1faee;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .change-photo-btn:hover, .edit-profile-btn:hover {
+    background-color: #457b9d;
+    color: #f1faee;
+  }
+  
+  .neon-green-text {
+    color: #39ff14;
+  }
+  
+  .language-card {
+    background-color: #1a1a2e;
+    border: 1px solid #4a4e69;
+  }
+  
+  .text-warning {
+    color: #ffd700;
+  }
+  
+  .text-secondary {
+    color: #6c757d;
+  }
+  
